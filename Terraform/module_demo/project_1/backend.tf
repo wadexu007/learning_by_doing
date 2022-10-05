@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "global-sre-dev-terraform"
+    bucket = "xperiences-eng-cn-dev-dmz-terraform-test"
     prefix = "demo/module"
   }
 }

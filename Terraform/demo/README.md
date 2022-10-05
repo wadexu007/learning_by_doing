@@ -10,4 +10,3 @@ terraform plan
 
 terraform apply
 ```
-

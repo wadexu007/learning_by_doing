@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: atlantis
+  namespace: atlantis
+spec:
+  type: ClusterIP
+  ports:
+  - name: atlantis
+    port: 4141
+  selector:
+    app: atlantis
+

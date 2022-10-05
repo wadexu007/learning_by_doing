@@ -1,0 +1,13 @@
+---
+version: 3
+automerge: true
+delete_source_branch_on_merge: true
+
+projects:
+- name: project-demo
+  dir: Terraform/demo
+  terraform_version: 1.2.9
+  workspace: default
+  autoplan:
+    when_modified:
+    - '**/*.tf'

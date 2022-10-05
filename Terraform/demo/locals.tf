@@ -1,7 +1,7 @@
 locals {
   # project details
   project = {
-    project_id       = "xperiences-eng-cn-dev"
+    project_id       = "global-sre-dev"
     region           = "asia-east2"
     network_name     = "wade-test-network"
   }

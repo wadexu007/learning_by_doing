@@ -1,0 +1,27 @@
+# (Optional) for custom workflow
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: atlantis
+  namespace: atlantis
+data:
+  config.yaml: |-
+    ---
+    allow-fork-prs: true
+    checkout-strategy: merge
+    data-dir: /atlantis
+    default-tf-version: v1.1.5
+    enable-diff-markdown-format: true
+    hide-prev-plan-comments: true
+    log-level: info
+
+  repoConfig.yaml: |-
+    ---
+    repos:
+    - id: /.*/
+      branch: /(master|main)/
+      apply_requirements: [approved, mergeable]
+      allowed_overrides: [apply_requirements, workflow, delete_source_branch_on_merge]
+      allow_custom_workflows: true
+      delete_source_branch_on_merge: true

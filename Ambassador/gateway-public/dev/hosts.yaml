@@ -1,0 +1,22 @@
+---
+apiVersion: getambassador.io/v2
+kind: TLSContext
+metadata:
+  name: min-tls-context
+spec:
+  hosts:
+  - "*.demosite.com"
+  secret: demo-tls-secret
+  min_tls_version: v1.2
+  redirect_cleartext_from: 80
+---
+apiVersion: getambassador.io/v2
+kind: Host
+metadata:
+  name: web-services
+spec:
+  hostname: "*.demosite.com"
+  tlsSecret:
+    name: demo-tls-secret
+  tlsContext:
+    name: min-tls-context

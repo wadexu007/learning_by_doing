@@ -23,6 +23,11 @@ spec:
       containers:
       - name: atlantis
         image: ghcr.io/runatlantis/atlantis:v0.18.2
+        args:
+        - server
+        - --port=4141
+        - --config=/etc/atlantis/config.yaml
+        - --repo-config=/etc/atlantis/repoConfig.yaml
         env:
         - name: ATLANTIS_GH_USER
           valueFrom:
@@ -45,6 +50,9 @@ spec:
         - name: ATLANTIS_PORT
           value: "4141" # Kubernetes sets an ATLANTIS_PORT variable so we need to override.
         volumeMounts:
+        # for configmap
+        - name: configs
+          mountPath: /etc/atlantis
         - name: atlantis-data
           mountPath: /atlantis
         ports:
@@ -73,6 +81,11 @@ spec:
             port: 4141
             # If using https, change this to HTTPS
             scheme: HTTP
+      # for configmap
+      volumes:
+      - name: configs
+        configMap:
+          name: atlantis
   volumeClaimTemplates:
   - metadata:
       name: atlantis-data

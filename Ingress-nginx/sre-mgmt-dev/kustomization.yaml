@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../_common
+  - ingress.yaml
+  - service.yaml
+  - external-service.yaml
+namespace: dmz
+patches:
+  - path: deployment-patch.yaml
+    target:
+      kind: Deployment
+  # somehow like SAML integration with tableau met session timeout
+  # ingress controller does not use provided wildcard tls and uses "Kubernetes Ingress Controller Fake Certificate" instead for requests without SNI
+  # https://github.com/kubernetes/ingress-nginx/issues/4674
+  - target:
+      kind: Deployment
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/args/1
+        value: "--default-ssl-certificate=$(POD_NAMESPACE)/tls-secret"

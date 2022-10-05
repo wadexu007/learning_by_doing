@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: atlantis
+spec:
+  template:
+    spec:
+      serviceAccountName: atlantis
+      containers:
+      - name: atlantis
+        env:
+        - name: ATLANTIS_ATLANTIS_URL
+          value: https://atlantis-demo.wadexu.cloud
+        - name: ATLANTIS_REPO_ALLOWLIST
+          value: github.com/wadexu007/learning_by_doing
+

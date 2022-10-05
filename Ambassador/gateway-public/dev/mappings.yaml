@@ -1,0 +1,17 @@
+---
+apiVersion: getambassador.io/v2
+kind:  Mapping
+metadata:
+  name: web-services-catch-all
+spec:
+  prefix: /
+  service: select-core-portal-fe:8080
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: my-nginx
+spec:
+  prefix: /
+  host: demo.wadexu.cloud
+  service: my-nginx:8080

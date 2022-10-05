@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ambassador
+spec:
+  template:
+    spec:
+      containers:
+      - name: ambassador
+        env:
+        - name: AES_LOG_LEVEL
+          value: error
+        resources:
+          limits:
+            cpu: 1
+            memory: 800Mi
+          requests:
+            cpu: 200m
+            memory: 200Mi

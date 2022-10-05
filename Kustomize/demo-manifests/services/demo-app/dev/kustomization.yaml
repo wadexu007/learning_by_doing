@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../_common
+namespace: demo
+commonLabels:
+  app: demo-app
+replicas:
+- count: 1
+  name: demo-app
+configMapGenerator:
+- files:
+  - config.json
+  name: demo-app-config
+patches:
+- patch: |-
+    - op: replace
+      path: /metadata/name
+      value: demo-app
+  target:
+    name: NAME_PLACEHOLDER
+patchesStrategicMerge:
+- deployment-patch.yaml
+images:
+- name: dockerbogo/go-app
+  newTag: latest

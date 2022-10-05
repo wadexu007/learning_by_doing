@@ -1,0 +1,5 @@
+---
+apiVersion: getambassador.io/v2
+kind: KubernetesEndpointResolver
+metadata:
+  name: my-resolver

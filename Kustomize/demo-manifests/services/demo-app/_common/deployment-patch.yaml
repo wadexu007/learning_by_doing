@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: NAME_PLACEHOLDER
+spec:
+  template:
+    spec:
+      serviceAccountName: NAME_PLACEHOLDER
+      containers:
+      - name: app
+        image: gcr.io/demo-registry/demo-app:IMG_TAG_PLACEHOLDER
+        livenessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 40
+          timeoutSeconds: 1
+        readinessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 20
+          timeoutSeconds: 1
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/conf/config.json
+          subPath: config.json
+      volumes:
+      - name: config-volume
+        configMap:
+          name: demo-app-config
+

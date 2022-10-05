@@ -1,0 +1,14 @@
+apiVersion: getambassador.io/v2
+kind: Module
+metadata:
+  name: ambassador
+spec:
+  config:
+    ip_allow: ~
+    cluster_request_timeout_ms: 120000
+    diagnostics:
+      enabled: false
+    keepalive:
+      time: 100
+      interval: 10
+      probes: 5

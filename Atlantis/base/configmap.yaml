@@ -8,7 +8,6 @@ metadata:
 data:
   config.yaml: |-
     ---
-    allow-fork-prs: true
     checkout-strategy: merge
     data-dir: /atlantis
     default-tf-version: v1.1.5

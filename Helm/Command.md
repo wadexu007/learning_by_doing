@@ -2,6 +2,10 @@
 
 This file contains useful Helm commands
 
+#### Prerequisites
+* Kubernetes 1.19+
+* Helm 3.2.0+
+
 ### Install
 Install bitnami nginx as example
 ```

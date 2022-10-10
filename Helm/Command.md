@@ -13,6 +13,18 @@ helm search repo nginx
 
 helm install mywebserver bitnami/nginx
 
+helm list
+
+# install to a specific namespace
+kubectl create ns demo
+
+helm install mywebserver bitnami/nginx -n demo
+
+helm list -n demo
+
+# install with a specific nginx version
+helm install mywebserver bitnami/nginx --version 13.2.8
+
 ```
 
 #### change default values then install

@@ -28,6 +28,15 @@ my-redis-release	default  	1       	2022-10-10 20:32:31.556624 +0800 CST	deploye
 
 The easiest way is to supply a path to your kubeconfig file using the config_path attribute or using the KUBE_CONFIG_PATH environment variable. A kubeconfig file may have multiple contexts. If config_context is not specified, the provider will use the default context.
 
+#### Installation
+```
+terraform init
+
+terraform plan
+
+terraform apply
+```
+
 #### Cleanup
 ```
 terraform destroy

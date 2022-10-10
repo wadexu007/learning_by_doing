@@ -18,3 +18,8 @@ output "region" {
   description = "GKE region"
   value       = module.wade-gke.region
 }
+
+output "project_id" {
+  description = "GCP Project ID"
+  value       = local.project.project_id
+}

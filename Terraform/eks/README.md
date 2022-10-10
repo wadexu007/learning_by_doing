@@ -1,7 +1,7 @@
 # Deployment EKS Terraform
 
 #### Provision the EKS cluster
-Update providers.tf - bucket
+Update providers.tf -> bucket
 
 1. Option 1: Export AWS access and security to environment variables
 
@@ -55,7 +55,7 @@ region = "cn-north-1"
 aws eks --region $(terraform output -raw region) update-kubeconfig \
     --name $(terraform output -raw cluster_name)
 ```
-From this point you can now use kubectl to manage your cluster and deploy Kubernetes configurations to it.
+From this point you can now use [kubectl](https://kubernetes.io/docs/reference/kubectl/) to manage your cluster and deploy Kubernetes configurations to it.
 
 Example:
 ```shell

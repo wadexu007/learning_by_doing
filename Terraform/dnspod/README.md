@@ -10,11 +10,16 @@ $ export TENCENTCLOUD_SECRET_ID="my-secret-id"
 $ export TENCENTCLOUD_SECRET_KEY="my-secret-key"
 ```
 
-### Execution
+### Deployment
 ```
 terraform init
 
 terraform plan
 
 terraform apply
+```
+
+#### Cleanup
+```
+terraform destroy
 ```

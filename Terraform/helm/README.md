@@ -11,13 +11,16 @@ Demo how to use Terraform Helm provider to install Helm Chart
 #### Requirements
 * Create a bucket for backend.tf to store Terraform state file
 
+```
+# valid LOCATION values are `asia`, `eu` or `us`
+gsutil mb -l $LOCATION gs://$BUCKET_NAME
+gsutil versioning set on gs://$BUCKET_NAME
+```
 
 #### Authentication
-* File config
-config_path = "~/.kube/config" in providers.tf
-<br>
+* File config - config_path = "~/.kube/config" in providers.tf
 
-The easiest way is to supply a path to your kubeconfig file using the config_path attribute or using the KUBE_CONFIG_PATH environment variable. A kubeconfig file may have multiple contexts. If config_context is not specified, the provider will use the default context.
+>The easiest way is to supply a path to your kubeconfig file using the config_path attribute or using the KUBE_CONFIG_PATH environment variable. A kubeconfig file may have multiple contexts. If config_context is not specified, the provider will use the default context.
 
 * Credentials [config](https://registry.terraform.io/providers/hashicorp/helm/latest/docs#credentials-config)
 * [OAuth2 access token](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/client_config#example-usage-configure-kubernetes-provider-with-oauth2-access-token)

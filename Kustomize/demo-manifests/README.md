@@ -15,8 +15,7 @@ https://kubectl.docs.kubernetes.io/installation/kustomize/
 ```
 cd Kustomize/demo-manifests
 
-kustomize build services/demo-app/dev/  > deploy.yaml 
-
+kustomize build services/demo-app/dev/ > deploy.yaml
 ```
 
 * Use [kubectl](https://kubernetes.io/docs/reference/kubectl/) command 

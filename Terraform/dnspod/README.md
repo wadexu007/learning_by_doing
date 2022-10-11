@@ -1,4 +1,4 @@
-# Demo how to use Terraform create DNS records in Tecent Cloud DNSPod
+## Demo how to use Terraform create DNS records in Tecent Cloud DNSPod
 
 ### Prerequisites
 * Create a bucket for backend.tf to store Terraform state file

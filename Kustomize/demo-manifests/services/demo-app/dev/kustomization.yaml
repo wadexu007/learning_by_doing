@@ -22,5 +22,5 @@ patches:
 patchesStrategicMerge:
 - deployment-patch.yaml
 images:
-- name: dockerbogo/go-app
-  newTag: latest
+- name: wadexu007/demo
+  newTag: 1.0.0

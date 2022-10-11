@@ -8,11 +8,11 @@ spec:
       serviceAccountName: NAME_PLACEHOLDER
       containers:
       - name: app
-        image: gcr.io/demo-registry/demo-app:IMG_TAG_PLACEHOLDER
+        image: wadexu007/demo:IMG_TAG_PLACEHOLDER
         livenessProbe:
           failureThreshold: 5
           httpGet:
-            path: /healthz
+            path: /pizzas
             port: 8080
           initialDelaySeconds: 10
           periodSeconds: 40
@@ -20,7 +20,7 @@ spec:
         readinessProbe:
           failureThreshold: 5
           httpGet:
-            path: /healthz
+            path: /pizzas
             port: 8080
           initialDelaySeconds: 10
           periodSeconds: 20

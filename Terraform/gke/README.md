@@ -1,7 +1,28 @@
-# Deployment GKE Terraform
+## Deployment GKE Terraform
+
+#### Prerequisites
+* Terraform 1.2.9
+* Google Cloud SDK
+
+```
+gcloud version
+
+Google Cloud SDK 397.0.0
+alpha 2022.08.05
+beta 2022.08.05
+bq 2.0.75
+core 2022.08.05
+gsutil 5.11
+```
 
 ### Provision the GKE cluster
 Update backend.tf -> bucket
+
+```
+# valid LOCATION values are `asia`, `eu` or `us`
+gsutil mb -l $LOCATION gs://$BUCKET_NAME
+gsutil versioning set on gs://$BUCKET_NAME
+```
 
 ### Authentication
 The account should have full permission to GCP project

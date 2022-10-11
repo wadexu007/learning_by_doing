@@ -1,4 +1,7 @@
-# Deployment EKS Terraform
+## Deployment EKS Terraform
+
+#### Prerequisites
+* Terraform 1.2.9
 
 #### Provision the EKS cluster
 Update providers.tf -> bucket

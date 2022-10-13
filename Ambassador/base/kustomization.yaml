@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
 - https://raw.githubusercontent.com/datawire/ambassador/v1.12.1/docs/yaml/ambassador/ambassador-crds.yaml
 - https://raw.githubusercontent.com/datawire/ambassador/v1.12.1/docs/yaml/ambassador/ambassador-rbac.yaml
+- https://raw.githubusercontent.com/datawire/ambassador/v1.12.1/docs/yaml/ambassador/ambassador-service.yaml

@@ -1,0 +1,16 @@
+apiVersion: getambassador.io/v2
+kind: Module
+metadata:
+  name: ambassador
+spec:
+  ambassador_id:
+  - ambassador-internal
+  config:
+    ip_allow:
+    - peer: 127.0.0.1
+    - remote: 10.0.0.0/8         # GCP Network
+    - remote: 172.0.0.0/8        # GKE Pods Overlay
+    - remote: 192.168.0.0/16     # GKE Services Overlay
+    cluster_request_timeout_ms: 120000
+    diagnostics:
+      enabled: false

@@ -1,0 +1,12 @@
+---
+apiVersion: getambassador.io/v2
+kind: Host
+metadata:
+  name: api-services
+spec:
+  ambassador_id: ambassador-internal
+  hostname: "*.demo.internal"
+  requestPolicy:
+    insecure:
+      action: Route
+      additionalPort: -1 # disable redirection entirely

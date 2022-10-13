@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ambassador
+spec:
+  template:
+    spec:
+      containers:
+      - name: ambassador
+        env:
+        - name: AES_LOG_LEVEL
+          value: error
+        - name: AMBASSADOR_ID
+          value: ambassador-internal # to seperate with another ambassador

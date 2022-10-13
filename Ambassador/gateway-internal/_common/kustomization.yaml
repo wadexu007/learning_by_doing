@@ -16,7 +16,7 @@ patches:
   patch: |-
     - op: replace
       path: /metadata/name
-      value: ambassador-dmz
+      value: ambassador-app
 
 # replace container registry and ambassador version
 images:

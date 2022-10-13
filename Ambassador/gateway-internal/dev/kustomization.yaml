@@ -5,7 +5,7 @@ resources:
 - hosts.yaml
 - mappings.yaml
 
-namespace: dmz
+namespace: app
 
 patchesStrategicMerge:
 - service-patch.yaml

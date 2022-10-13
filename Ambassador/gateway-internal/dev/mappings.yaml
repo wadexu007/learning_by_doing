@@ -1,0 +1,20 @@
+---
+apiVersion: getambassador.io/v2
+kind:  Mapping
+metadata:
+  name: app-services-catch-all
+spec:
+  ambassador_id: ambassador-internal
+  prefix: /
+  rewrite: /ambassador/v0/check_ready
+  service: ambassador:8080
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: msgcenter-api
+spec:
+  ambassador_id: ambassador-internal
+  prefix: /
+  host: msgapi.demo.internal:8080
+  service: msgcenter-api:8080

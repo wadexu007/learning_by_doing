@@ -4,6 +4,10 @@ resource "helm_release" "my-nginx" {
   repository = "https://charts.bitnami.com/bitnami"
   chart      = "nginx"
 
+  # values = [
+  #   "${file("additional_values.yaml")}"
+  # ]
+
   set {
     name  = "service.type"
     value = "ClusterIP"

@@ -31,7 +31,14 @@ helm install mywebserver bitnami/nginx --version 13.2.8
 
 ```
 
-#### change default values then install
+#### Install by set parameters
+```
+helm install my-nginx bitnami/nginx --set service.type="ClusterIP"
+```
+[More Parameters](https://github.com/bitnami/charts/tree/master/bitnami/nginx/#parameters)
+
+
+#### Install by values.yaml
 
 ```
 helm inspect values bitnami/nginx > values.yaml
@@ -75,3 +82,7 @@ helm uninstall mywebserver
 
 helm repo remove bitnami
 ```
+
+### Useful Links
+https://helm.sh/docs/
+https://github.com/bitnami/charts/tree/master/bitnami

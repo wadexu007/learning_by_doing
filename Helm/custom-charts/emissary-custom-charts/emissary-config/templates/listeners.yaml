@@ -1,0 +1,38 @@
+{{- if .Values.listeners.enabled }}
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Listener
+metadata:
+  name: https-listener
+  namespace: {{ $.Release.Namespace }}
+spec:
+  port: 8443
+  protocol: HTTPS
+  securityModel: XFP
+  l7Depth: 0
+  hostBinding:
+    namespace:
+      from: SELF
+  {{- if hasKey .Values.env "AMBASSADOR_ID" }}
+  ambassador_id:
+  - {{ .Values.env.AMBASSADOR_ID | quote }}
+  {{- end }}
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Listener
+metadata:
+  name: http-listener
+  namespace: {{ $.Release.Namespace }}
+spec:
+  port: 8080
+  protocol: HTTP
+  securityModel: XFP
+  l7Depth: 0
+  hostBinding:
+    namespace:
+      from: SELF
+  {{- if hasKey .Values.env "AMBASSADOR_ID" }}
+  ambassador_id:
+  - {{ .Values.env.AMBASSADOR_ID | quote }}
+  {{- end }}
+{{ end }}

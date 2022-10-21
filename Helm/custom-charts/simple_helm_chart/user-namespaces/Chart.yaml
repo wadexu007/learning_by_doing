@@ -1,0 +1,4 @@
+apiVersion: v2
+description: Helm chart for maintaining user namespaces
+name: user-namespaces
+version: 1.1.0

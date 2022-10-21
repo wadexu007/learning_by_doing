@@ -1,0 +1,11 @@
+
+namespaces:
+- name: xxxx
+  owner: wade@xxx.com
+- name: yyyyy
+  owner: james@xxx.com
+# - name: sample
+#   owner: "wade@xxx.com"
+#   extraAnnotations:
+#     abc: def
+

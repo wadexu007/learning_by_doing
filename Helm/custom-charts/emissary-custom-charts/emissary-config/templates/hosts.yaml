@@ -1,0 +1,12 @@
+{{- range $index, $host := .Values.hosts }}
+apiVersion: getambassador.io/v3alpha1
+kind: Host
+metadata:
+  name: {{ $host.name | quote }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "base.labels" $ | nindent 4 }}
+spec:
+  {{- toYaml $host.spec | nindent 2 }}
+---
+{{- end }}

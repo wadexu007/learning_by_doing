@@ -1,0 +1,12 @@
+{{- range $index, $tlscontext := .Values.tlscontexts }}
+apiVersion: getambassador.io/v3alpha1
+kind:  TLSContext
+metadata:
+  name:  {{ $tlscontext.name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "base.labels" $ | nindent 4 }}
+spec:
+{{ toYaml $tlscontext.spec | indent 2 }}
+---
+{{- end }}

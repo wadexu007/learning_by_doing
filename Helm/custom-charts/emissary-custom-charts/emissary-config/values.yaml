@@ -1,0 +1,41 @@
+hosts: []
+# hosts:
+# - name: dev-wadexu-cloud
+#   spec:
+#     hostname: '*.wadexu.cloud'
+#     tlsContext:
+#       name: min-tls-context
+#     tlsSecret:
+#       name: tls-secret
+#     requestPolicy:
+#       insecure:
+#         action: Redirect
+
+mappings: []
+# mappings:
+# - name: http
+#   spec:
+#     ambassador_id:
+#     - ambassador
+#     hostname: dev.wadexu.cloud
+#     prefix: /
+#     service: my-nginx:80
+
+tlscontexts: []
+# tlscontexts:
+# - name: min-tls-context
+#   spec:
+#     ambassador_id:
+#     - ambassador
+#     hosts:
+#     - '*.wadexu.cloud'
+#     min_tls_version: v1.2
+
+listeners:
+  enabled: true
+
+# Any additional environment variables for ambassador pods
+# Example:
+# labels Ambassador with an ID to allow for configuring multiple Ambassadors in a cluster
+# AMBASSADOR_ID: default
+env: {}

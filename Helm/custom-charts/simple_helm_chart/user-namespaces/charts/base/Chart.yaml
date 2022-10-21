@@ -1,0 +1,6 @@
+apiVersion: v2
+description: Common tooling for helm charts
+icon: http://lintsaysigottahavethis.png
+name: base
+type: library
+version: 0.1.0

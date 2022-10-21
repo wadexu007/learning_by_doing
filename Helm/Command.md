@@ -19,10 +19,11 @@ helm install mywebserver bitnami/nginx
 
 helm list
 
-# install to a specific namespace
-kubectl create ns demo
-
+# install to a exist namespace
 helm install mywebserver bitnami/nginx -n demo
+
+# install to a new namespace
+helm install mywebserver bitnami/nginx -n demo --create-namespace
 
 helm list -n demo
 
@@ -34,6 +35,7 @@ helm install mywebserver bitnami/nginx --version 13.2.8
 #### Install by set parameters
 ```
 helm install my-nginx bitnami/nginx --set service.type="ClusterIP"
+
 ```
 [More Parameters](https://github.com/bitnami/charts/tree/master/bitnami/nginx/#parameters)
 

@@ -1,0 +1,15 @@
+---
+{{ range $i, $ns := .Values.namespaces -}}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $ns.name }}
+  annotations:
+    helm.sh/resource-policy: keep
+    {{- if hasKey $ns "extraAnnotations" }}
+      {{- toYaml $ns.extraAnnotations | nindent 4 }}
+    {{- end }}
+  labels:
+    {{- include "base.labels" $ | nindent 4 }}
+---
+{{- end }}

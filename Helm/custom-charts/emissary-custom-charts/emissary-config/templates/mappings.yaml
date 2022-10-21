@@ -1,0 +1,12 @@
+{{- range $index, $mapping := .Values.mappings }}
+apiVersion: getambassador.io/v3alpha1
+kind:  Mapping
+metadata:
+  name:  {{ $mapping.name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "base.labels" $ | nindent 4 }}
+spec:
+{{ toYaml $mapping.spec | indent 2 }}
+---
+{{- end }}

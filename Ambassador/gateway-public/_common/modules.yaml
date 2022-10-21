@@ -4,7 +4,10 @@ metadata:
   name: ambassador
 spec:
   config:
-    ip_allow: ~ # allow all
+    # ip allow list, the default is to allow all traffic.
+    # ip_allow:
+    # - peer: 127.0.0.1
+    # - remote: 99.99.0.0/16
     cluster_request_timeout_ms: 120000
     diagnostics:
       enabled: false

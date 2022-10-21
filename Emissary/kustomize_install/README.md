@@ -27,7 +27,7 @@ kubectl apply -f ~/emissary_deploy.yaml
 
 ### Cleanup
 ```
-kubectl delete -f emissary_deploy.yaml 
+kubectl delete -f ~/emissary_deploy.yaml 
 ```
 
 ### More example

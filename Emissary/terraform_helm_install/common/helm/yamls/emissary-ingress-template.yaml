@@ -1,0 +1,61 @@
+# (1) Set a Static IP for LB instead to use Ephemeral
+# (2) autoscaling is enabled, with naive parameters
+# (3) DOGSTATSD is enabled and sent to the localhost, as in a standard daemonset value
+# (4) Enable advanced load balancing https://www.getambassador.io/docs/emissary/latest/topics/running/load-balancer/
+# (5) Set Ambassador with an ID to allow for configuring multiple Ambassadors in one cluster
+
+service:
+  type: LoadBalancer
+  loadBalancerIP: ${loadBalancerIP}
+
+replicaCount: ${replicaCount}
+
+autoscaling:
+  enabled: true
+  maxReplicas: ${maxReplicas}
+  minReplicas: ${minReplicas}
+
+canary:
+  enabled: ${canaryEnabled}
+
+env:
+  DOGSTATSD: true
+  STATSD_ENABLED: true
+  AMBASSADOR_ID: ${ambassadorID}
+  AES_LOG_LEVEL: ${logLevel}
+
+envRaw: |
+  - name: STATSD_HOST
+    valueFrom:
+      fieldRef:
+        fieldPath: status.hostIP
+
+# https://www.getambassador.io/docs/emissary/latest/topics/running/load-balancer/
+resolvers:
+  endpoint:
+    create: ${endpointEnable}
+    name: ${endpointName}
+
+module:
+  diagnostics:
+    enabled: ${diagnosticsEnable}
+    allow_non_local: true
+
+  keepalive:
+    time: 100
+    interval: 10
+    probes: 5
+
+  # ip allow list, the default is to allow all traffic.
+  # ip_allow:
+  # - peer: 127.0.0.1
+  # - remote: 99.99.0.0/16
+
+  # advanced load balancing policy also can set per mapping
+  # resolver: ${endpointName}
+  # load_balancer:
+  #   policy: round_robin
+
+  # sets the default end-to-end timeout for a single request.
+  # default is three seconds
+  cluster_request_timeout_ms: ${clusterRequestTimeout}

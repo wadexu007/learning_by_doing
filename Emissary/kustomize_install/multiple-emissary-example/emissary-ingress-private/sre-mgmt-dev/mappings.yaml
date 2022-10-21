@@ -1,0 +1,11 @@
+---
+apiVersion: getambassador.io/v3alpha1
+kind:  Mapping
+metadata:
+  name:  my-nginx-mapping
+spec:
+  ambassador_id: 
+  - ambassador-private
+  hostname: test.wadexu.cloud
+  prefix: /my-nginx
+  service: my-nginx.nginx:80

@@ -1,0 +1,8 @@
+---
+apiVersion: getambassador.io/v3alpha1
+kind: KubernetesEndpointResolver
+metadata:
+  name: my-resolver
+spec:
+  ambassador_id: 
+  - ambassador

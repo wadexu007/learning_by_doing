@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../_common
+- hosts.yaml
+- mappings.yaml
+- listeners.yaml
+
+patches:
+  - path: service-patch.yaml
+    target:
+      kind: Service
+      name: emissary-ingress
+
+# default is 3, change to 1 for demo purpose
+replicas:
+- name: emissary-ingress
+  count: 1
+
+# since CRDs in emissary-system namespace
+# if you want to change namespace for emissary-ingress, be careful
+namespace: emissary-system
+
+# change CRDs namespace back to emissary-system
+# patchesJson6902:
+#   - target:
+#       version: v1
+#       kind: Service
+#       name: emissary-apiext
+#     patch: |-
+#       - op: replace
+#         path: /metadata/namespace
+#         value: emissary-system

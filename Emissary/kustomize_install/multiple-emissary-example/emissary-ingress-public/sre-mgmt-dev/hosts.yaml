@@ -1,0 +1,29 @@
+---
+apiVersion: getambassador.io/v3alpha1
+kind: TLSContext
+metadata:
+  name: min-tls-context
+spec:
+  ambassador_id: 
+  - ambassador
+  hosts:
+  - "*.wadexu.cloud"
+  secret: tls-secret
+  min_tls_version: v1.2
+
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Host
+metadata:
+  name: my-host-dev
+spec:
+  ambassador_id: 
+  - ambassador
+  hostname: "*.wadexu.cloud"
+  tlsSecret:
+    name: tls-secret # create tls secret in your cluster first
+  tlsContext:
+    name: min-tls-context
+  requestPolicy:
+    insecure:
+      action: Redirect

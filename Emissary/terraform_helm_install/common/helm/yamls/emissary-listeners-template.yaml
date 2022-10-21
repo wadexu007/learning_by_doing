@@ -1,0 +1,8 @@
+# (1) listeners custom hostBinding namespace from SELF
+# (2) Set Ambassador with an ID to allow for configuring multiple Ambassadors in one cluster
+
+listeners:
+  enabled: ${listenersEnabled}
+
+env:
+  AMBASSADOR_ID: ${ambassadorID}

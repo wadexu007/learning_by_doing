@@ -1,0 +1,29 @@
+apiVersion: getambassador.io/v3alpha1
+kind: Module
+metadata:
+  name: ambassador
+spec:
+  ambassador_id:
+  - ambassador-private
+  config:
+    # advanced load balancing policy also can set per mapping, default round_robin
+    resolver: my-resolver
+    load_balancer:
+      policy: round_robin
+
+    # ip allow list, the default is to allow all traffic.
+    # ip_allow:
+    # - peer: 127.0.0.1
+    # - remote: 99.99.0.0/16
+
+    # sets the default end-to-end timeout for a single request.
+    # default is three seconds
+    cluster_request_timeout_ms: 120000
+
+    diagnostics:
+      enabled: false
+
+    keepalive:
+      time: 100
+      interval: 10
+      probes: 5

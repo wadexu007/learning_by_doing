@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: emissary-ingress
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 35.232.98.249 # Reserve a static public address in your cloud provider

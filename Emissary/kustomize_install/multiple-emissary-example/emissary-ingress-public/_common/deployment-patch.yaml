@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emissary-ingress
+spec:
+  template:
+    spec:
+      containers:
+      - name: ambassador
+        env:
+        - name: AES_LOG_LEVEL
+          value: error # valid log levels are error, warn/warning, info, debug, and trace
+        - name: AMBASSADOR_ID
+          value: ambassador # Set Ambassador with an ID to allow for configuring multiple Ambassadors in one cluster

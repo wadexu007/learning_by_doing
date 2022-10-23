@@ -13,16 +13,13 @@ Quick start from [my example](../../Kustomize/demo-manifests/README.md)
 
 ### Deployment
 * Quick-start
-
 Update yaml per your request
 ```
 kustomize build ingress-nginx-public/sre-mgmt-dev/ > ~/deploy.yaml
-
 kubectl apply -f ~/deploy.yaml
 ```
-
 * Through Terraform Kustomize provider, refer to [my example](../../Terraform/kustomize/README.md)
-
+* You can use Helm to install with Terraform as well, [example](../../Terraform/helm/)
 
 ### Cleanup
 ```

@@ -5,7 +5,9 @@ resources:
   - ingress.yaml
   - service.yaml
   - external-service.yaml
+
 namespace: dmz
+
 patches:
   - path: deployment-patch.yaml
     target:

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: workload-identity-test
+  namespace: secrets
+spec:
+  containers:
+  - image: google/cloud-sdk:slim
+    name: workload-identity-test
+    command: ["sleep","infinity"]
+  serviceAccountName: kubernetes-external-secrets
+  nodeSelector:
+    iam.gke.io/gke-metadata-server-enabled: "true"

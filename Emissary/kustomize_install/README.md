@@ -11,11 +11,22 @@ Quick start from [my example](../../Kustomize/demo-manifests/README.md)
 ### Prerequisites
 * [Kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) 3.10.0
 * Emissary-Ingress 3.2.0
+* Prepare a tls secret
+
+Create a tls secret manually for demo https listeners (Optional: it's better to use [External Secrets](https://external-secrets.io/v0.6.0/)).
+```
+kubectl create secret -n secret tls tls-secret \
+    --save-config --dry-run=client \
+    --key ./xxx.key \
+    --cert ./xxx.pem \
+    -o yaml | 
+  kubectl apply -f -
+```
 
 ### Deployment
 * Quick-start
 
-Update yaml in dev folder per your request
+Update yaml per your request
 ```
 kustomize build quick-start/emissary-ingress/sre-mgmt-dev/ > ~/emissary_deploy.yaml
 

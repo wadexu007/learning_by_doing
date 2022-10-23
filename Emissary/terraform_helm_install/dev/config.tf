@@ -14,7 +14,7 @@ locals {
           name: my-tls-context
         tlsSecret:
           name: tls-secret
-
+          namespace: secret
     mappings:
     - name: my-nginx-mapping
       spec:

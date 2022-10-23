@@ -73,9 +73,9 @@ Notes: If helm provider > 2.7.0, plan will prompt the below error. Workaround is
 │ ensure CRDs are installed first
 ```
 
-We also need create a tls secret manually for demo https listeners, it's better to use [External Secrets](https://external-secrets.io/v0.6.0/) and custom `emissary_config` helm chart.
+We also need create a tls secret manually for demo https listeners (Optional: it's better to use [External Secrets](https://external-secrets.io/v0.6.0/) and custom `emissary_config` helm chart to add this kind).
 ```
-kubectl create secret -n emissary-system tls tls-secret \
+kubectl create secret -n secret tls tls-secret \
     --save-config --dry-run=client \
     --key ./xxx.key \
     --cert ./xxx.pem \

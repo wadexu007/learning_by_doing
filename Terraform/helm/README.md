@@ -51,3 +51,6 @@ terraform destroy
 
 #### Reference
 https://registry.terraform.io/providers/hashicorp/helm/latest/docs
+
+#### More example with custom Helm Charts
+Refer to my [Emissary example](../../Emissary/terraform_helm_install/)

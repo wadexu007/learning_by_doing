@@ -63,7 +63,7 @@ module "wade-gke" {
   remove_default_node_pool        = true
   enable_shielded_nodes           = false
   identity_namespace              = "enabled"
-  node_metadata                   = "EXPOSE"
+  node_metadata                   = "GKE_METADATA"
   horizontal_pod_autoscaling      = true
   enable_vertical_pod_autoscaling = false
 

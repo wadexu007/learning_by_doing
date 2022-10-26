@@ -1,7 +1,18 @@
-# Demo how to use Terraform deploy resource on GCP
+## What's in this folder?
+
+The folder contains more features with Terraform
+
+### Features
+* lookup
+* for_each
+* count
+* function
+* dynamic blocks
+* conditional expressions
+* for expressions
 
 ### Prerequisites
-create a bucket for project_1/backend.tf to store Terraform state file
+create a bucket for backend.tf to store Terraform state file
 
 here use GCS as example
 ```
@@ -15,8 +26,6 @@ gsutil versioning set on gs://$BUCKET_NAME
 
 ### Deployment
 ```
-cd project_1
-
 terraform init
 
 terraform plan

@@ -1,0 +1,54 @@
+# Ingress-Nginx installed first
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+    ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/ingress.class: nginx
+
+    # If you encounter a redirect loop or are getting a 307 response code 
+    # then you need to force the nginx ingress to connect to the backend using HTTPS.
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS" # argocd backend using HTTPS
+
+    # face to internet, recommend update to restrict access
+    nginx.ingress.kubernetes.io/whitelist-source-range: | 
+      0.0.0.0/0
+
+  name: ingress-argocd
+  namespace: dmz
+spec:
+  rules:
+  - host: argocd.wadexu.cloud
+    http:
+      paths:
+      - backend:
+          service:
+            name: argocd-ext-svc
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - argocd.wadexu.cloud
+    secretName: tls-secret
+
+---
+# add externalName type svc in dmz namespace, so that Ingress (in dmz) can point to this svc in argocd ns
+apiVersion: v1
+kind: Service
+metadata:
+  name:  argocd-ext-svc
+  namespace: dmz
+spec:
+  type: ExternalName
+  externalName: argocd-server.argocd.svc.cluster.local
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 80
+    protocol: TCP
+  selector:
+    app.kubernetes.io/name: argocd-server

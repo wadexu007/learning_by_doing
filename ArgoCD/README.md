@@ -108,4 +108,12 @@ argocd app sync my-app
 
 Just click SYNC in Applications page.
 
+### What's More
+Argo CD supports [several different ways](https://argo-cd.readthedocs.io/en/stable/user-guide/application_sources/) in which Kubernetes manifests can be defined:
+
+* Kustomize applications (my above example)
+* Helm charts
+* A directory of YAML/JSON/Jsonnet manifests, including Jsonnet.
+* Any custom config management tool configured as a config management plugin
+
 <br>

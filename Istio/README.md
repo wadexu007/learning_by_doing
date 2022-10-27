@@ -3,9 +3,9 @@
 [Istio](https://istio.io/) extends Kubernetes to establish a programmable, application-aware network using the powerful Envoy service proxy. Working with both Kubernetes and traditional workloads, Istio brings standard, universal traffic management, telemetry, and security to complex deployments.
 
 ### Prerequisites
-kubectl v1.19.0+
-istio 1.14.3
-cert-manager v1.8.2
+* kubectl v1.19.0+
+* istio 1.14.3
+* cert-manager v1.8.2
 
 ### Installation
 ```

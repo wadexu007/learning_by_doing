@@ -1,0 +1,146 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: order-pizza
+  name: order-pizza
+  namespace: exercise
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: order-pizza
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+      labels:
+        app: order-pizza
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: cloud.google.com/gke-nodepool
+                operator: In
+                values:
+                - app-pool
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - order-pizza
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - env:
+        - name: AGENT_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        image: wadexu007/exercise-pizza:1.0.6
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 40
+          timeoutSeconds: 3
+        name: app
+        ports:
+        - containerPort: 8080
+          name: http
+        readinessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 20
+          timeoutSeconds: 3
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+          requests:
+            cpu: 200m
+            memory: 256Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/conf/config.json
+          subPath: config.json
+        # - mountPath: /data
+        #   name: gcp-filestore-test
+      volumes:
+      - name: config-volume
+        configMap:
+          name: order-pizza-exercise-config
+      # - name: gcp-filestore-test
+      #   persistentVolumeClaim:
+      #     claimName: gcp-filestore-test-claim
+      #     readOnly: false
+      tolerations:
+      - effect: NoSchedule
+        key: app
+        operator: Equal
+        value: "true"
+      terminationGracePeriodSeconds: 20
+---
+# # pv
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: gcp-filestore-test
+# spec:
+#   capacity:
+#     storage: 10Gi
+#   accessModes:
+#   - ReadWriteMany
+#   nfs:
+#     path: /u01
+#     server: 10.127.2.106
+# ---
+# # pvc
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: gcp-filestore-test-claim
+#   namespace: exercise
+# spec:
+#   # Specify "" as the storageClassName so it matches the PersistentVolume's StorageClass.
+#   # A nil storageClassName value uses the default StorageClass. For details, see
+#   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#class-1
+#   accessModes:
+#   - ReadWriteMany
+#   storageClassName: ""
+#   volumeName: gcp-filestore-test
+#   resources:
+#     requests:
+#       storage: 10Gi
+# ---
+# apiVersion: v1
+# kind: ConfigMap
+# data:
+#   config.json: |-
+#     {    
+#         "FILE_PATH": "/data/test/",
+#         "LOG_LEVEL": "INFO",
+#         "DB_HOST": "127.0.0.1",
+#         "DB_NAME": "test"
+#     }
+# metadata:
+#   name: order-pizza-exercise-config
+#   namespace: exercise

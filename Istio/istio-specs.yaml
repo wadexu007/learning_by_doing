@@ -1,0 +1,58 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: httpsserver
+  namespace: exercise
+spec:
+  gateways:
+    - httpsserver-gw
+  hosts:
+    - istio-qw.wadexu.cloud
+  http:
+    - match:
+        - port: 443
+      route:
+        - destination:
+            host: order-pizza-svc.exercise.svc.cluster.local
+            port:
+              number: 8080
+      fault:
+        abort:
+          httpStatus: 500
+          percentage:
+            value: 50
+        delay:
+          percent: 50
+          fixedDelay: 5s
+    # - match:
+    #     - port: 80
+    #   route:
+    #     - destination:
+    #         host: order-pizza-svc.exercise.svc.cluster.local
+    #         port:
+    #           number: 8080
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: httpsserver-gw
+  namespace: exercise
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - hosts:
+        - istio-qw.wadexu.cloud
+      port:
+        name: https-default
+        number: 443
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: istio-tls-secret # must in istio-system namespace
+    # - hosts:
+    #     - istio-qw.wadexu.cloud
+    #   port:
+    #     name: http-default
+    #     number: 80
+    #     protocol: HTTP

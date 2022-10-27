@@ -211,7 +211,7 @@ In server side you will find errors like
 Bad protocol version 'PROXY TCP4 58.241.167.212 10.0.4.3 47249 8888' from 10.0.4.7
 ```
 
-To fix problem, need install mod_proxy_protocol following [Option 2]()
+To fix problem, need install mod_proxy_protocol following [Option 2](https://github.com/wadexu007/learning_by_doing/tree/main/ProFTPD#option-2-with-proxy_protocol)
 
 Now if you want to access sftp instance IP from internal VPC, you will met errors, because SFTP server now running in proxy protocol, only can accept passthrough traffic from upstream LB which enable proxy protocol.
 

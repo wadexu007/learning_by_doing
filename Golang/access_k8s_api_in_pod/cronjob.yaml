@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: version
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: version-service-account
+  namespace: version
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  # "namespace" omitted since ClusterRoles are not namespaced 
+  name: resource-read-role
+rules:
+  - apiGroups: [""] # "" indicates the core API group
+    resources: ["pods", "services"]
+    verbs: ["get", "list"]
+  - apiGroups: ["apps"] # "deployments" in the "apps" API groups
+    resources: ["deployments"]
+    verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: read-resources-global
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: resource-read-role
+subjects:
+  - kind: ServiceAccount
+    name: version-service-account
+    namespace: version
+# ---
+# kind: Pod
+# apiVersion: v1
+# metadata:
+#   name: go-client-read-version
+#   namespace: version
+# spec:
+#   serviceAccountName: version-service-account
+#   restartPolicy: Never
+#   containers:
+#   - name: go-client
+#     image: wadexu007/exercise-goclient:1.0.2
+#     imagePullPolicy: IfNotPresent
+#     command:
+#     - /app/server
+#     args:
+#     - dmz
+#     - app
+---
+# manually run kubectl create job --from=cronjob/get-version-cron-job manual-cron-job
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+    name: get-version-cron-job
+    namespace: version
+spec:
+  schedule: "0 * * * *"
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          labels:
+            app: get-version-batch-job
+        spec:
+          containers:
+          - name: get-version-cron-job
+            image: wadexu007/exercise-goclient:1.0.2
+            command:
+            - /app/server
+            args:
+            - dmz
+            - app
+          restartPolicy: OnFailure
+          serviceAccountName: version-service-account

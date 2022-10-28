@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: NAME_PLACEHOLDER
+spec:
+  template:
+    spec:
+      serviceAccountName: NAME_PLACEHOLDER
+      containers:
+      - name: app
+        image: wadexu007/helm-go-client:IMG_TAG_PLACEHOLDER
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          timeoutSeconds: 2
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          timeoutSeconds: 2
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/conf/config.json
+          subPath: config.json
+        - name: kube-config-volume
+          mountPath: /secrets/kubeconfig
+          subPath: kubeconfig
+          readOnly: true
+      volumes:
+      - name: config-volume
+        configMap:
+          name: helm-go-client-config
+      - name: kube-config-volume
+        secret:
+          secretName: kube-config
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: cloud.google.com/gke-nodepool
+                operator: In
+                values:
+                - app-pool
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - helm-go-client
+            topologyKey: kubernetes.io/hostname
+      tolerations:
+      - effect: NoSchedule
+        key: app
+        operator: Equal
+        value: "true"

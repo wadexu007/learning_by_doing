@@ -1,0 +1,3 @@
+{
+    "KUBE_CONFIG_PATH": "/secrets/kubeconfig"
+}

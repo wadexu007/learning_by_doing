@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../_common
+
+namespace: ops
+
+commonLabels:
+  app: helm-go-client
+replicas:
+- count: 1
+  name: helm-go-client
+configMapGenerator:
+- files:
+  - config.json
+  name: helm-go-client-config
+patches:
+- patch: |-
+    - op: replace
+      path: /metadata/name
+      value: helm-go-client
+  target:
+    name: NAME_PLACEHOLDER
+
+patchesStrategicMerge:
+- deployment-patch.yaml
+images:
+- name: wadexu007/helm-go-client
+  newTag: 1.0.0-93a3f8f

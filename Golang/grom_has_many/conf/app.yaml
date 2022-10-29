@@ -1,0 +1,14 @@
+mysql:
+  user: db_user
+  password: <replace_me>
+  host: <replace_me>:3306
+  name: users
+  pool:
+    maxIdleConns: 10
+    maxOpenConns: 100
+    maxConnLifeTime: 30
+log:
+  config: '{"level":"debug","encoding":"json","outputPaths":["stdout","/tmp/logs"],"errorOutputPaths":["stderr"],"encoderConfig":{"messageKey":"message","levelKey":"level","levelEncoder":"lowercase"}}'
+admin:
+  name: <replace_me>
+  password: <replace_me>

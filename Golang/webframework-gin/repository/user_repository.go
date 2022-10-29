@@ -1,7 +1,7 @@
 package repository
 
 import (
-	. "cost-analyzer/model"
+	. "demo-gin/model"
 
 	"gorm.io/gorm"
 )

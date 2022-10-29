@@ -4,9 +4,9 @@
 package router
 
 import (
-	"cost-analyzer/controller/account"
-	"cost-analyzer/repository"
-	"cost-analyzer/service"
+	"demo-gin/controller/account"
+	"demo-gin/repository"
+	"demo-gin/service"
 
 	"github.com/google/wire"
 	"gorm.io/gorm"

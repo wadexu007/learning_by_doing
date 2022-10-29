@@ -1,10 +1,10 @@
 package service
 
 import (
-	. "cost-analyzer/error"
-	"cost-analyzer/lib/logger"
-	. "cost-analyzer/model"
-	. "cost-analyzer/repository"
+	. "demo-gin/error"
+	"demo-gin/lib/logger"
+	. "demo-gin/model"
+	. "demo-gin/repository"
 	"errors"
 
 	"github.com/google/uuid"

@@ -5,11 +5,11 @@ Copyright 2022 Wade Xu
 package main
 
 import (
-	"cost-analyzer/config"
-	"cost-analyzer/lib/logger"
-	"cost-analyzer/middleware"
-	"cost-analyzer/model"
-	"cost-analyzer/router"
+	"demo-gin/config"
+	"demo-gin/lib/logger"
+	"demo-gin/middleware"
+	"demo-gin/model"
+	"demo-gin/router"
 	"os"
 )
 

@@ -1,6 +1,6 @@
 ## Intro
 
-This is a demo app with gin web framework and gorm
+This is a demo app with gin web framework and gorm and jwt auth.
 
 ## Framework Integration
 

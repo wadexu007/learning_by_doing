@@ -1,4 +1,4 @@
-module cost-analyzer
+module demo-gin
 
 go 1.18
 

@@ -1,10 +1,10 @@
-export TAG=1.0.7
-export PROJECT=cost-analyzer
+export TAG=1.0.0
+export PROJECT=demo-gin
 # docker hub container registry
 export DCR=wadexu007
 
 hello:
-	echo "This is a demo"
+	echo "This is a demo about web framework gin with jwt and gorm"
 
 local: hello
 	echo "run locally"

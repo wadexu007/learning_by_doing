@@ -1,7 +1,7 @@
 package model
 
 import (
-	"cost-analyzer/config"
+	"demo-gin/config"
 	"fmt"
 	"time"
 

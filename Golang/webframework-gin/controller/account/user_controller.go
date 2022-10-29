@@ -1,10 +1,10 @@
 package account
 
 import (
-	. "cost-analyzer/error"
-	"cost-analyzer/lib/logger"
-	"cost-analyzer/model"
-	. "cost-analyzer/service"
+	. "demo-gin/error"
+	"demo-gin/lib/logger"
+	"demo-gin/model"
+	. "demo-gin/service"
 	"errors"
 	"net/http"
 

@@ -1,9 +1,9 @@
 package middleware
 
 import (
-	"cost-analyzer/lib/logger"
-	"cost-analyzer/lib/utils"
-	"cost-analyzer/model"
+	"demo-gin/lib/logger"
+	"demo-gin/lib/utils"
+	"demo-gin/model"
 	"time"
 
 	jwt "github.com/appleboy/gin-jwt/v2"

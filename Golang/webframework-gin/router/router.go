@@ -1,9 +1,9 @@
 package router
 
 import (
-	"cost-analyzer/controller"
-	"cost-analyzer/lib/logger"
-	"cost-analyzer/middleware"
+	"demo-gin/controller"
+	"demo-gin/lib/logger"
+	"demo-gin/middleware"
 	"net/http"
 
 	jwt "github.com/appleboy/gin-jwt/v2"

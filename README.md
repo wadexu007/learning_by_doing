@@ -2,8 +2,12 @@
 ![alt text.](./Images/learning-doing.jpg "This is a header image.")
 
 ## What's in this repo?
+This repository contains a List of my practices when learning by doing for DevOps, SRE & Cloud Infrastructure.
 
-This repository contains all my exercise when learning by doing.
+## 📒 Purpose
+The purpose of this repository is to centralize all practices of my learning by doing in order to present a way to understand and develop Site Reliability Engineering (SRE) and DevOps skills.
+
+The content of this repository is based on a return of several years of experience in the industry and a willingness to share content that may still be unknown to some people who would like to evolve in their career or open themselves to new opportunities.
 
 ## ℹ️ Introduction
 
@@ -33,6 +37,6 @@ This repository contains all my exercise when learning by doing.
 Email: xjs-1985@163.com
 
 ## 📖 Blogs
-https://www.cnblogs.com/wade-xu
+[Chinese] https://www.cnblogs.com/wade-xu
 
 <br>

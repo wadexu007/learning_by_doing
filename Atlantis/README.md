@@ -35,7 +35,7 @@ Reference: https://www.runatlantis.io/docs/configuring-webhooks.html#github-gith
 
 
 #### Atlantis.yaml
-Refer to [Atlantis.yaml](../atlantis.yaml) in this mono repo
+Refer to [Atlantis.yaml](../atlantis.yaml) in this monorepo
 
 
 #### Permimssion

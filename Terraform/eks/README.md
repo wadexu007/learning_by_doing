@@ -2,6 +2,7 @@
 
 #### Prerequisites
 * Terraform 1.2.9
+* aws-cli 2.7.7
 
 #### Provision the EKS cluster
 Update providers.tf -> bucket

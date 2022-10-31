@@ -10,9 +10,9 @@ locals {
   }
 
   master_authorized_networks =   [
-    "4.14.111.230/32",   # allow office 1
-    "64.124.130.196/32", # allow office 2
-    "0.0.0.0/0"          # allow all access master node
+    "4.14.xxx.xx/32",   # allow office 1, need to change to your whitelist
+    "64.124.xxx.xx/32", # allow office 2, need to change to your whitelist
+    "0.0.0.0/0"         # allow all access master node, not suggest
   ]
 
   # Extend cluster security group rules example

@@ -68,11 +68,11 @@ locals {
     master_authorized_networks = [
       {
         display_name = "Whitelist 1"
-        cidr_block   = "4.14.111.230/32"
+        cidr_block   = "4.14.xxx.xx/32" # need to change to your whitelist
       },
       {
         display_name = "Whitelist 2"
-        cidr_block   = "64.124.130.196/32"
+        cidr_block   = "64.124.xxx.xx/32" # need to change to your whitelist
       },
     ]
   }

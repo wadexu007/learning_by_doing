@@ -1,4 +1,5 @@
-## What's in this folder?
+## What Is Atlantis?
+Atlantis is an application for automating Terraform via pull requests. It is deployed as a standalone application into your infrastructure. No third-party has access to your credentials.
 
 This folder contains atlantis mainfests for deployment in kubernetes.
 

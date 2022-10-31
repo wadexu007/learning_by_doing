@@ -2,6 +2,10 @@
 
 [Istio](https://istio.io/) extends Kubernetes to establish a programmable, application-aware network using the powerful Envoy service proxy. Working with both Kubernetes and traditional workloads, Istio brings standard, universal traffic management, telemetry, and security to complex deployments.
 
+Istio is an open source service mesh that layers transparently onto existing distributed applications. Istio’s powerful features provide a uniform and more efficient way to secure, connect, and monitor services. Istio is the path to load balancing, service-to-service authentication, and monitoring – with few or no service code changes. 
+
+Its powerful control plane brings vital features, including: [Refer to Here](https://istio.io/latest/about/service-mesh/#what-is-istio)
+
 ### Prerequisites
 * kubectl v1.19.0+
 * istio 1.14.3

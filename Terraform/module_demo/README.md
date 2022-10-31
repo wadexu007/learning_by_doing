@@ -1,4 +1,4 @@
-# Demo how to use Terraform deploy resource on GCP
+# Demo how to use Terraform deploy resource on GCP with module function
 
 ### Prerequisites
 create a bucket for project_1/backend.tf to store Terraform state file

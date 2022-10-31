@@ -1,6 +1,4 @@
 ## What's in this folder?
-[Emissary Ingress](https://www.getambassador.io/docs/emissary/) API gateway from Ambassador Labs is an open source Kubernetes-native API gateway built on the Envoy Proxy.
-
 This folder contains a collection of Kubernetes manifests used to deploy [Emissary Ingress](https://www.getambassador.io/docs/emissary/) in kubernetes clusters. The manifests are generated using [Kustomize](https://github.com/kubernetes-sigs/kustomize), which can then be deployed on Kubernetes through our CI/CD pipelines or Terraform Kustomize provider.
 
 ### Understanding Kustomize

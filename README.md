@@ -11,26 +11,26 @@ The content of this repository is based on a return of several years of experien
 
 ## ℹ️ Introduction
 
-| Component       | Description.  |
-| -------------   |:-------------:|
-| Ambassador      | TBD           |
-| ArgoCD          | TBD           |
-| Atlantis        | TBD           |
-| Datadog         | TBD           |
-| Docker          | TBD           |
-| Emissary        | TBD           |
-| GitOps          | TBD           |
-| Golang          | TBD           |
-| Helm            | TBD           |
-| Ingress-nginx   | TBD           |
-| Istio           | TBD           |
-| Jenkins         | TBD           |
-| Kubernetes      | TBD           |
-| Kustomize       | TBD           |
-| ProFTPD         | TBD           |
-| Spinnaker       | TBD           |
-| Terraform       | TBD           |
-| Velero          | TBD           |
+| Component       | Description                                                                                                                                             |
+| -------------   |:------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| Ambassador      | Ambassador API gateway is an open source Kubernetes-native API gateway built on the Envoy Proxy. Now it called Emissary.                                |
+| ArgoCD          | Argo CD is a declarative, GitOps continuous delivery tool for Kubernetes.                                                                               |
+| Atlantis        | Atlantis is an application for automating Terraform via pull requests.                                                                                  |
+| Datadog         | TBD                                                                                                                                                     |
+| Docker          | Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers.                   |
+| Emissary        | Emissary Ingress (formerly known as Ambassador) API gateway is an open source Kubernetes-native API gateway built on the Envoy Proxy.                   |
+| GitOps          | TBD                                                                                                                                                     |
+| Golang          | Golang is an open source programming language that makes it easy to build simple, reliable, and efficient software.                                     |
+| Helm            | Helm helps you manage Kubernetes applications — Helm Charts help you define, install, and upgrade even the most complex Kubernetes application.         |
+| Ingress-nginx   | Kubernetes ingress-nginx is an Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer.                                      |
+| Istio           | Istio extends Kubernetes to establish a programmable, application-aware network using the powerful Envoy service proxy.                                 |
+| Jenkins         | TBD                                                                                                                                                     |
+| Kubernetes      | Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications.                                   |
+| Kustomize       | Kustomize is a Kubernetes configuration transformation tool that enables you to customize untemplated YAML files, leaving the original files untouched. |
+| ProFTPD         | ProFTPD is a high-performance, extremely configurable, and most of all a secure FTP server, featuring Apache-like configuration and blazing performance.|
+| Spinnaker       | TBD                                                                                                                                                     |
+| Terraform       | Terraform is an open-source infrastructure as code software tool that enables you to safely and predictably create, change, and improve infrastructure. |
+| Velero          | TBD                                                                                                                                                     |
 
 
 ## 📟 Contact

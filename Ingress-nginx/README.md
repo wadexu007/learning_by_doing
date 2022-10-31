@@ -1,4 +1,5 @@
 ## What's in this folder?
+Ingress-nginx is an Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer.
 
 This folder contains a collection of Kubernetes manifests used to deploy [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/) in kubernetes clusters. The manifests are generated using [Kustomize](https://github.com/kubernetes-sigs/kustomize), which can then be deployed on Kubernetes through our CI/CD pipelines or Terraform Kustomize provider.
 

@@ -1,8 +1,5 @@
 ## What's in this folder?
-[Emissary Ingress](https://www.getambassador.io/docs/emissary/) API gateway from Ambassador Labs is an open source Kubernetes-native API gateway built on the Envoy Proxy.
-
 This folder contains TF code on how to deploy Emissary Helm charts with Terraform.
-
 
 ### Prerequisites
 * Helm Provider 2.6.0

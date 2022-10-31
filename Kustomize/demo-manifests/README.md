@@ -5,6 +5,7 @@ This folder contains a collection of Kubernetes manifests used to deploy an exam
 ### Understanding Kustomize
 https://kustomize.io/
 
+Kustomize is a Kubernetes configuration transformation tool that enables you to customize untemplated YAML files, leaving the original files untouched. 
 
 ### Install Kustomize
 https://kubectl.docs.kubernetes.io/installation/kustomize/

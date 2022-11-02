@@ -1,0 +1,26 @@
+datadog:
+  apiKey: ${apiKey}
+  appKey: ${appKey}
+  clusterName: ${clusterName}
+  logLevel: info
+  kubeStateMetricsCore:
+    enabled: true
+    collectSecretMetrics: true
+  tags:
+    - kubernetescluster:${clusterName}
+    - gcpproject:${projectName}
+  dogstatsd:
+    originDetection: true
+    useHostPort: true
+  logs:
+    enabled: false
+  processAgent:
+    enabled: false
+  apm:
+    enabled: false
+    socketEnabled: false
+    portEnabled: false
+clusterAgent:
+  metricsProvider:
+    enabled: true
+    useDatadogMetrics: true

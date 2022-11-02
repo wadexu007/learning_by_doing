@@ -1,0 +1,19 @@
+# refs: https://velero.io/docs/v1.9/api-types/backupstoragelocation/
+#       https://github.com/vmware-tanzu/velero-plugin-for-gcp/blob/main/backupstoragelocation.md
+---
+apiVersion: velero.io/v1
+kind: BackupStorageLocation
+metadata:
+  labels:
+    component: velero
+  name: default
+  namespace: velero
+spec:
+  provider: gcp
+  default: true
+  config:
+    serviceAccount: SA@PROJECT.iam.gserviceaccount.com
+  objectStorage:
+    bucket: BUCKET
+    prefix: FOLDER
+

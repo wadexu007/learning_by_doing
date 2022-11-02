@@ -1,0 +1,15 @@
+# ref: https://velero.io/docs/v1.9/api-types/schedule/
+---
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: hourly-full-backup
+  namespace: velero
+  labels:
+    component: velero
+spec:
+  schedule: "0 * * * *"
+  template:
+    snapshotVolumes: true
+    ttl: 168h  # retain 1 week backups
+

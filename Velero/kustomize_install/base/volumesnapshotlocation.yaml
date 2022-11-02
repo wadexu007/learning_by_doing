@@ -1,0 +1,13 @@
+# refs: https://velero.io/docs/v1.9/api-types/volumesnapshotlocation/
+#       https://github.com/vmware-tanzu/velero-plugin-for-gcp/blob/main/volumesnapshotlocation.md
+---
+apiVersion: velero.io/v1
+kind: VolumeSnapshotLocation
+metadata:
+  labels:
+    component: velero
+  name: default
+  namespace: velero
+spec:
+  provider: gcp
+

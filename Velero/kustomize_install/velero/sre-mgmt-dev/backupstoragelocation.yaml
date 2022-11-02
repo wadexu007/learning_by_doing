@@ -1,0 +1,12 @@
+apiVersion: velero.io/v1
+kind: BackupStorageLocation
+metadata:
+  name: default
+  namespace: velero
+spec:
+  config:
+    serviceAccount: velero@sre-mgmt-dev.iam.gserviceaccount.com
+  objectStorage:
+    bucket: velero-sre-apac-mgmt
+    prefix: sre-mgmt-dev
+

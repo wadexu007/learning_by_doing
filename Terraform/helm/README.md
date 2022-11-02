@@ -5,7 +5,7 @@ Demo how to use Terraform Helm provider to install Helm Chart
 #### Prerequisites
 * Kubernetes 1.19+
 * Terraform 1.2.9
-* Hashicorp Helm Provider 2.7.0
+* Terraform Helm Provider 2.7.0
 
 
 #### Requirements

@@ -9,17 +9,18 @@ The purpose of this repository is to centralize all practices of my learning by 
 
 The content of this repository is based on a return of several years of experience in the industry and a willingness to share content that may still be unknown to some people who would like to evolve in their career or open themselves to new opportunities.
 
-## ℹ️ Introduction
+
+## ℹ️ Tech Stack Catalog
 
 | Component     | Category        | Description                                                                                                                                             |
 | ------------- | -------------   |:------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | Ambassador    | Gateway         | Ambassador API gateway is an open source Kubernetes-native API gateway built on the Envoy Proxy. Now it called Emissary. [Learn More](./Ambassador/) |
 | ArgoCD        | CICD            | Argo CD is a declarative, GitOps continuous delivery tool for Kubernetes. [Learn More](./ArgoCD/) |
 | Atlantis      | Tools           | Atlantis is an application for automating Terraform via pull requests. [Learn More](./Atlantis/) |
-| Datadog       | Monitor as code | TBD |
+| Datadog       | Monitoring as code | Datadog provides cloud-scale monitoring and security for metrics, traces and logs in one unified platform. [Learn More](./Datadog/) |
 | Docker        | Tools           | Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers. [Learn More](./Docker/) |
 | Emissary      | Gateway         | Emissary Ingress (formerly known as Ambassador) API gateway is an open source Kubernetes-native API gateway built on the Envoy Proxy. [Learn More](./Emissary/) |
-| GitOps        | CICD            | TBD |
+| Github Actions | CICD            | TBD |
 | Golang        | Language        | Golang is an open source programming language that makes it easy to build simple, reliable, and efficient software. [Learn More](./Golang/) |
 | Helm          | Tools           | Helm helps you manage Kubernetes applications — Helm Charts help you define, install, and upgrade even the most complex Kubernetes application. [Learn More](./Helm/) |
 | Ingress-nginx | Gateway         | Kubernetes ingress-nginx is an Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer. [Learn More](./Ingress-nginx/) |
@@ -30,7 +31,7 @@ The content of this repository is based on a return of several years of experien
 | ProFTPD       | Tools           | ProFTPD is a high-performance, extremely configurable, and most of all a secure FTP server, featuring Apache-like configuration and blazing performance. [Learn More](./ProFTPD/) |
 | Spinnaker     | CICD            | TBD |
 | Terraform     | Infra as code   | Terraform is an open-source infrastructure as code software tool that enables you to safely and predictably create, change, and improve infrastructure. [Learn More](./Terraform/) |
-| Velero        | BCDR            | TBD |
+| Velero        | BCDR            | Velero is a tool to back up and restore your Kubernetes cluster resources and persistent volumes. [Learn More](./Velero/) |
 
 
 ## 📟 Contact

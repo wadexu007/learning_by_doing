@@ -77,31 +77,38 @@ Template folder only contains a namespace.yaml
 ### Use via Terraform
 ```
 helm package user-namespaces
-
-# move output file user-namespaces-1.1.0.tgz to some local folder or upload to a bucket or publish to github
 ```
+Move output file user-namespaces-1.1.0.tgz to some local folder or publish to a bucket or github.
+* [Publish to a GCS bucket](https://github.com/hayorov/helm-gcs)
+* [Publish to a github repo](https://medium.com/containerum/how-to-make-and-share-your-own-helm-package-50ae40f6c221)
 
+Below is install from local.
 ```
 locals {
-  project_id     = "global-sre-dev"
-  cluster_name   = "sre-gke"
-  cluster_region = "us-central1"
-  emissary_ns    = "emissary-system"
-  chart_version  = "8.2.0"
+  my_ns = "demo-ns"
 
-  emissary_ns_yaml = <<-EOT
+  my_ns_yaml = <<-EOT
     namespaces:
-    - name: ${local.emissary_ns}
+    - name: ${local.my_ns}
       owner: wadexu
   EOT
 }
 
 # from local chart
-resource "helm_release" "emissary_ns" {
-  name   = "emissary-ns"
+resource "helm_release" "my_ns" {
+  name   = "my-ns"
   chart  = "some_folder/helm/repos/user-namespaces-1.1.0.tgz"
-  values = [local.emissary_ns_yaml]
+  values = [local.my_ns_yaml]
 }
 ```
 
+after terraform init/apply
+```
+% kubectl get ns                                     
+NAME              STATUS   AGE
+demo-ns           Active   12s
+```
+
 You can refer to [more example](../../../Emissary/terraform_helm_install/dev/emissary.tf) about how to Deploy Helm Charts With Terraform
+
+<br>

@@ -41,7 +41,7 @@ helm package emissary-crds
 ```
 
 ### Share Helm Package
-* Upload to a bucket
+* [Publish to a GCS bucket](https://github.com/hayorov/helm-gcs)
 * [Publish to a github repo](https://medium.com/containerum/how-to-make-and-share-your-own-helm-package-50ae40f6c221)
 
 ### Example Usage

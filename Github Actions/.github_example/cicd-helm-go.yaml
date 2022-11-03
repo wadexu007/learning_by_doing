@@ -1,0 +1,99 @@
+# This is a CICD workflow for helm-go-client
+name: cicd-helm-go
+  
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the below branch and specific path
+on:
+  push:
+    branches:
+    - main
+    - develop
+    paths:
+      - 'helm-go-client/**'
+  pull_request:
+    branches:
+    - main
+    paths:
+      - 'helm-go-client/**'
+jobs:
+# The "build" workflow
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.build_app.outputs.image_tag }}
+      actor: ${{ steps.build_app.outputs.actor }}
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE
+    - name: checkout repo
+      uses: actions/checkout@v3
+    # Setup go
+    - name: Setup go
+      uses: actions/setup-go@v3
+      with:
+        go-version-file: 'helm-go-client/go.mod'
+        check-latest: true
+        cache: true
+        cache-dependency-path: helm-go-client/go.sum
+    # Docker login to GCR
+    - name: Login to GCR
+      uses: docker/login-action@v2
+      with:
+        registry: asia.gcr.io
+        username: _json_key
+        password: ${{ secrets.GCR_JSON_KEY }}
+    # Build and push to GCR
+    - name: build application
+      id: build_app
+      run: |-
+        VER=`cat helm-go-client/Makefile| grep TAG= | awk -F "=" 'NR==1{print $2}'`
+        GIT_COMMIT=$(git log | grep commit | awk 'NR==1{print $2}' | cut -c1-7) 
+        cd helm-go-client
+        make push TAG2=-$GIT_COMMIT
+        # set output
+        echo "::set-output name=image_tag::$(echo "$VER-$GIT_COMMIT")"
+        echo "::set-output name=actor::$(echo "$GITHUB_ACTOR")"
+    # Workaround to avoid Post Use step failures related to cache
+    # Error: There are no cache folders on the disk
+    - name: Post setup
+      run: mkdir -p /home/runner/.cache/go-build
+      continue-on-error: true
+    # Kustomize
+    - name: Setup Kustomize
+      uses: imranismail/setup-kustomize@v1
+      with:
+        kustomize-version: "3.6.1"
+
+  deploy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    needs: build
+    steps:    
+    # Checks-out k8s YAML manifests repository 
+    - name: checkout k8s manifests repo
+      uses: actions/checkout@v3
+      with:
+        # clone https://github.com/xxx/sre_manifests which contains deploy manifests
+        repository: xxx/sre_manifests
+        # auth by ssh key or personal toke 
+        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ref: refs/heads/master
+    # Update image version
+    - name: Update Kubernetes resources
+      run: |
+       cd demo-manifests/services/helm-go-client/dev 
+       kustomize edit set image asia.gcr.io/sre-mgmt/helm-go-client:${{ needs.build.outputs.image_tag }}
+       cat kustomization.yaml
+    # To trigger argoCD deploy
+    - name: Commit files
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -am "${{ needs.build.outputs.actor }} update image version ${{ needs.build.outputs.image_tag }}"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        ssh: true
+        repository: xxx/sre_manifests
+        branch: master

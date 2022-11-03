@@ -1,0 +1,54 @@
+name: Promote Image to Next Env
+on: 
+  workflow_dispatch:
+    branches: [master]
+    inputs:
+      component:
+        description: 'Component'     
+        required: true
+        default: 'demo-app'
+      promote_across:
+        description: 'Promote across'
+        required: true
+        type: choice
+        options:
+        - qa_to_staging
+        - staging_to_prod
+        default: 'qa_to_staging'
+      flag:
+        description: 'Merge release branch to main'
+        required: false
+        type: boolean
+
+jobs:
+  printInputs:
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo "Env: ${{ github.event.inputs.env }}"
+        echo "Component: ${{ github.event.inputs.component }}"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE
+    - name: checkout repo
+      uses: actions/checkout@v3
+    # Setup go
+    - name: Setup go
+      uses: actions/setup-go@v3
+      with:
+        go-version-file: '${{ github.event.inputs.component }}/go.mod'
+        check-latest: true
+        cache: true
+        cache-dependency-path: ${{ github.event.inputs.component }}/go.sum
+    # Build
+    - name: build application
+      run: |-
+        GIT_COMMIT=$(git log | grep commit | awk 'NR==1{print $2}' | cut -c1-7) 
+        echo $GIT_COMMIT
+        cd ${{ github.event.inputs.component }}
+        ls -lh
+        make hello
+        echo "Environment: ${{ github.event.inputs.env }}"

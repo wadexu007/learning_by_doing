@@ -1,0 +1,182 @@
+# This is a workflow for CICD all projects under a mono repo
+name: cicd
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the below branch and specific path
+on:
+  push:
+    branches:
+    - main
+    - hackathon
+    paths:
+      - 'golang/**'
+      - 'java/**'
+
+env:
+  # define program in which directory
+  GO_DIR: golang
+  JAVA_DIR: java
+  # NODE_DIR: frontend
+
+jobs:
+
+  init:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    outputs:
+      go_matrix: ${{ steps.set-matrix.outputs.go_matrix }}
+      java_matrix: ${{ steps.set-matrix.outputs.java_matrix }}
+      deploy_env: ${{ steps.set_env.outputs.deploy_env }}
+      gcp_project: ${{ steps.set_env.outputs.gcp_project }}
+      gke_cluster: ${{ steps.set_env.outputs.gke_cluster }}
+      gke_region: ${{ steps.set_env.outputs.gke_region }}
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE
+    - name: checkout repo
+      uses: actions/checkout@v3
+    - name: Set environment variables
+      id: set_env
+      run: ./.github/scripts/set_env.sh
+      shell: bash
+    # get changed files path
+    - name: Get changed files
+      id: get_changed
+      env:
+        GITHUB_EVENT_BE: ${{ github.event.before }}
+      run: ./.github/scripts/get_changed.sh
+      shell: bash
+    # set matrix, json result example {"include":[{"module": "demo-app", "type": "golang"}]}
+    - name: Set matrix for build
+      id: set-matrix
+      run: |
+        # get matrix json
+        GO_JSON=$(./.github/scripts/set_matrix.sh "${{ steps.get_changed.outputs.diff }}" $GO_DIR)
+        JAVA_JSON=$(./.github/scripts/set_matrix.sh "${{ steps.get_changed.outputs.diff }}" $JAVA_DIR)
+        # set output
+        echo "::set-output name=go_matrix::$(echo "$GO_JSON")"
+        echo "::set-output name=java_matrix::$(echo "$JAVA_JSON")"
+      shell: bash
+
+  go_build:
+    name: Go Build on "${{ matrix.module }}"
+    needs: init
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.build_app.outputs.image_tag }}
+      actor: ${{ steps.build_app.outputs.actor }}
+    if: ${{ needs.init.outputs.go_matrix != '{"include":[]}' && needs.init.outputs.go_matrix != '' }}
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJSON(needs.init.outputs.go_matrix)}}
+    steps:
+      - uses: actions/checkout@v3
+      # Setup go env
+      - name: Setup go
+        uses: actions/setup-go@v3
+        with:
+          go-version-file: '${{ matrix.type }}/${{ matrix.module }}/go.mod'
+          check-latest: true
+          cache: true
+          cache-dependency-path: '${{ matrix.type }}/${{ matrix.module }}/go.sum'
+      # Docker login to GCR
+      - name: Login to GCR
+        uses: docker/login-action@v2
+        with:
+          registry: asia.gcr.io
+          username: _json_key
+          password: ${{ secrets.GCR_JSON_KEY }}
+      # Build
+      - name: build application
+        id: build_app
+        run: |-
+          VER=`cat ${{ matrix.type }}/${{ matrix.module }}/Makefile| grep TAG= | awk -F "=" 'NR==1{print $2}'`
+          GIT_COMMIT=$(git log | grep commit | awk 'NR==1{print $2}' | cut -c1-7) 
+          echo $VER-$GIT_COMMIT
+          cd ${{ matrix.type }}/${{ matrix.module }}
+          make push TAG2=-$GIT_COMMIT
+          # set output
+          echo "::set-output name=image_tag::$(echo "$VER-$GIT_COMMIT")"
+          echo "::set-output name=actor::$(echo "$GITHUB_ACTOR")"
+      # Workaround to avoid Post Use step failures related to cache
+      # Error: There are no cache folders on the disk
+      - name: Post setup
+        run: mkdir -p /home/runner/.cache/go-build
+        continue-on-error: true
+
+  go_deploy:
+    name: Go Deploy on "${{ matrix.module }}"
+    needs: [go_build, init]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJSON(needs.init.outputs.go_matrix)}}
+    steps:
+      # Checks-out k8s YAML manifests repository 
+      - name: checkout k8s manifests repo
+        uses: actions/checkout@v3
+        with:
+          repository: xxx/sre_manifests
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ref: refs/heads/master
+      # Update image version
+      - name: Update Kubernetes resources
+        run: |
+          cd demo-manifests/services/${{ matrix.module }}/${{ needs.init.outputs.deploy_env }}
+          kustomize edit set image asia.gcr.io/sre-mgmt/${{ matrix.module }}:${{ needs.go_build.outputs.image_tag }}
+
+      # authentication via credentials json
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.GCR_JSON_KEY }}' # test key's json
+      # Setup gcloud CLI
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0
+      # Get the GKE credentials so we can deploy to the cluster
+      - name: Set up GKE credentials
+        run: |-
+          gcloud container clusters get-credentials ${{ needs.init.outputs.gke_cluster }} --region ${{ needs.init.outputs.gke_region }} --project ${{ needs.init.outputs.gcp_project }}
+      # Deploy to the GKE cluster
+      - name: Deploy
+        run: |-
+          gcloud container clusters list --project ${{ needs.init.outputs.gcp_project }}
+          cd demo-manifests/services/${{ matrix.module }}/${{ needs.init.outputs.deploy_env }}
+          cat kustomization.yaml
+          kustomize build . | kubectl apply -f -
+          kubectl get pods,job,cronjob --all-namespaces | grep ${{ matrix.module }}
+
+  commit_version:
+    name: Commit image version on "${{ matrix.module }}"
+    needs: [go_deploy, go_build, init]
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1 # cannot run parallel when commit changes 
+      fail-fast: false
+      matrix: ${{fromJSON(needs.init.outputs.go_matrix)}}
+    steps:
+      # Checks-out k8s YAML manifests repository 
+      - name: checkout k8s manifests repo
+        uses: actions/checkout@v3
+        with:
+          repository: xxx/sre_manifests
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ref: refs/heads/master
+      # Update image version
+      - name: Update Kubernetes resources
+        run: |
+          cd demo-manifests/services/${{ matrix.module }}/${{ needs.init.outputs.deploy_env }}
+          kustomize edit set image asia.gcr.io/sre-mgmt/${{ matrix.module }}:${{ needs.go_build.outputs.image_tag }}
+
+      # To track image version in git
+      - name: Commit files
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -am "${{ needs.go_build.outputs.actor }} update ${{ matrix.module }} with image version ${{ needs.go_build.outputs.image_tag }}"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          ssh: true
+          repository: xxx/sre_manifests
+          branch: master

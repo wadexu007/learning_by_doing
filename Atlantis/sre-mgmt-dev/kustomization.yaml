@@ -8,10 +8,4 @@ resources:
 namespace: atlantis
 
 patchesStrategicMerge:
-- statefulset.yaml
-
-images:
-- name: ghcr.io/runatlantis/atlantis
-  newName: wadexu007/atlantis
-  newTag: v0.18.2-3
-
+- statefulset-patch.yaml

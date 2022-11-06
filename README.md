@@ -15,7 +15,7 @@ The content of this repository is based on a return of several years of experien
 | Component     | Category        | Description                                                                                                                                             |
 | ------------- | -------------   |:------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | Ambassador    | Gateway         | Ambassador API gateway is an open source Kubernetes-native API gateway built on the Envoy Proxy. Now it called Emissary. [Learn More](./Ambassador/) |
-| ArgoCD        | CICD            | Argo CD is a declarative, GitOps continuous delivery tool for Kubernetes. [Learn More](./ArgoCD/) |
+| Argo          | CICD            | Open source tools for Kubernetes to run workflows, manage clusters, and do GitOps right. [Learn More](./Argo/) |
 | Atlantis      | Tools           | Atlantis is an application for automating Terraform via pull requests. [Learn More](./Atlantis/) |
 | Datadog       | Monitoring as code | Datadog provides cloud-scale monitoring and security for metrics, traces and logs in one unified platform. [Learn More](./Datadog/) |
 | Docker        | Tools           | Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers. [Learn More](./Docker/) |
@@ -29,7 +29,7 @@ The content of this repository is based on a return of several years of experien
 | Kubernetes    | Infra           | Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications. [Learn More](./Kubernetes/) |
 | Kustomize     | Tools           | Kustomize is a Kubernetes configuration transformation tool that enables you to customize untemplated YAML files, leaving the original files untouched. [Learn More](./Emissary/) |
 | ProFTPD       | Tools           | ProFTPD is a high-performance, extremely configurable, and most of all a secure FTP server, featuring Apache-like configuration and blazing performance. [Learn More](./ProFTPD/) |
-| Spinnaker     | CICD            | TBD |
+| Tekton        | CICD            | TBD |
 | Terraform     | Infra as code   | Terraform is an open-source infrastructure as code software tool that enables you to safely and predictably create, change, and improve infrastructure. [Learn More](./Terraform/) |
 | Velero        | BCDR            | Velero is a tool to back up and restore your Kubernetes cluster resources and persistent volumes. [Learn More](./Velero/) |
 

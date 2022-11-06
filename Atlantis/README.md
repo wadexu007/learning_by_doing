@@ -21,13 +21,13 @@ kubectl create secret generic atlantis --from-file=ghUser --from-file=ghToken --
 
 #### Deployment
 ```
-kustomize build Atlantis/sre-mgmt-dev > deploy.yaml  
+kustomize build sre-mgmt-dev > deploy.yaml  
 
 kubectl apply -f deploy.yaml  
 ```
 
 #### Config Ingress Nginx
-Refer to Ingress Nginx [deployment](../Ingress-nginx/sre-mgmt-dev)
+Refer to Ingress Nginx [deployment](../Ingress-nginx/ingress-nginx-public/sre-mgmt-dev/)
 
 
 #### Github webhook config

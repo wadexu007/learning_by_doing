@@ -14,7 +14,15 @@ Quick start from [my example](../../Kustomize/demo-manifests/README.md)
 
 ### Deployment
 * Quick-start
-Update yaml per your request
+Update yaml per your request. 
+
+Because enabled https, so need create a secret first. (Optional) Use [external secrets](../Kubernetes/external-secrets/)
+```
+kubectl create secret -n dmz tls wade-tls-secret \
+  --key ./xxx.key \
+  --cert ./xxx.pem
+```
+then
 ```
 kustomize build ingress-nginx-public/sre-mgmt-dev/ > ~/deploy.yaml
 kubectl apply -f ~/deploy.yaml

@@ -21,7 +21,7 @@ This is a [workflow pipeline](./.github_example/workflows/cicd-helm-go.yaml) for
 6. Checkout k8s manifests repo
 7. Update Kubernetes resources with kustomize edit
 9. Git push changes
-10. Trigger [ArgoCD](../ArgoCD/)
+10. Trigger [ArgoCD](../Argo/ArgoCD/)
 
 
 ### Manually running a workflow

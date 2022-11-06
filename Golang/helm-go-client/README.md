@@ -6,7 +6,7 @@ Helm-go-client utilize Helm SDK to manage the application deployment on Kubernet
 * Containerized by Docker
 * Manage Kubernetes [[YAML manifests](../../Kustomize/demo-manifests/services/helm-go-client/)] by Kustomize
 * Continuous Integration by [[Github Actions](../../GitOps/github_actions/cicd-helm-go.yaml)]
-* Continuous Deployment by ArgoCD
+* Continuous Deployment by [[ArgoCD](../../Argo/ArgoCD/)]
 <br>
 
 ## Features

@@ -55,6 +55,7 @@ resource "helm_release" "emissary_ingress" {
 
 # This is for install Host/Listener/Mapping/TLSContext from a local custom chart
 # also can upload chart to a bucket or a public github for install from a url
+# e.g. [Publish to a GCS bucket](https://github.com/hayorov/helm-gcs)
 resource "helm_release" "emissary_config" {
   name      = "emissary-config"
   namespace = local.emissary_ns

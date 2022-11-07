@@ -16,17 +16,18 @@ Quick start from [my example](../../Kustomize/demo-manifests/README.md)
 * Quick-start
 Update yaml per your request. 
 
-Because enabled https, so need create a secret first. (Optional) Use [external secrets](../Kubernetes/external-secrets/)
+```
+kustomize build ingress-nginx-public/sre-mgmt-dev/ > ~/deploy.yaml
+kubectl apply -f ~/deploy.yaml
+```
+
+Because enabled https, so need create a secret. (Optional) Use [external secrets](../Kubernetes/external-secrets/)
 ```
 kubectl create secret -n dmz tls wade-tls-secret \
   --key ./xxx.key \
   --cert ./xxx.pem
 ```
-then
-```
-kustomize build ingress-nginx-public/sre-mgmt-dev/ > ~/deploy.yaml
-kubectl apply -f ~/deploy.yaml
-```
+
 * Through Terraform Kustomize provider, refer to [my example](../../Terraform/kustomize/README.md)
 * You can use Helm to install with Terraform as well, [example](../../Terraform/helm/)
 

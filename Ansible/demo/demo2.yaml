@@ -1,0 +1,42 @@
+# Demo playbook
+# $ ansible-playbook demo2.yaml \
+#     -i hosts/eng-dev.yaml \
+#     --extra-vars "user_id={{user_id}} key={{key}} project_name={{gcp_project_ID}} region={{region}}"
+
+- hosts: [all]
+  remote_user: "{{ user_id }}"
+  become: yes
+  become_method: sudo
+
+  vars:
+    # test variables
+    dest_config_location: /opt
+    test_conf_dir: /home/{{ user_id }}
+    # ansible variables
+    setup_src_location: "{{ playbook_dir }}"
+    project_name: "{{ project_name }}"
+
+  tasks:
+    ############################################
+    # Configure The Config Files #
+    ############################################
+    - name: Create The Config Directories in "{{ test_conf_dir }}"
+      file:
+        path: "{{ test_conf_dir }}/{{ item }}"
+        owner: "{{ user_id }}" 
+        group: root # just demo purpose
+        mode: '755'
+        state: directory
+      loop:
+        - log.d
+        - non.d
+
+    - name: Create The Config Files in "{{ test_conf_dir }}"
+      template:
+        src: "{{ setup_src_location }}/templates/{{ config_dir.template_name }}/conf.yaml.j2"
+        dest: "{{ test_conf_dir }}/{{ config_dir.dir_name }}/conf.yaml"
+        mode: '0644'
+      with_items:
+        - { template_name: 'log_collectors', dir_name: 'log.d'}
+      loop_control:
+        loop_var: config_dir

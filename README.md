@@ -15,6 +15,7 @@ The content of this repository is based on a return of several years of experien
 | Component     | Category        | Description                                                                                                                                             |
 | ------------- | -------------   |:------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | Ambassador    | Gateway         | Ambassador API gateway is an open source Kubernetes-native API gateway built on the Envoy Proxy. Now it called Emissary. [Learn More](./Ambassador/) |
+| Ansible       | Infra as code   | Ansible is a suite of software tools that enables infrastructure as code. It is open-source and the suite includes software provisioning, configuration management, and application deployment functionality. [Learn More](./Ansible/) |
 | Argo          | CICD            | Open source tools for Kubernetes to run workflows, manage clusters, and do GitOps right. [Learn More](./Argo/) |
 | Atlantis      | Tools           | Atlantis is an application for automating Terraform via pull requests. [Learn More](./Atlantis/) |
 | Datadog       | Monitoring as code | Datadog provides cloud-scale monitoring and security for metrics, traces and logs in one unified platform. [Learn More](./Datadog/) |

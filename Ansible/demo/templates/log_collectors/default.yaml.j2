@@ -1,0 +1,14 @@
+- type: file
+  path: /var/log/secure
+  service: {{ item.service }}
+  source: {{ item.source }}
+  tags:
+    - "env:{{ project_name }}"
+
+- type: file
+  path: /var/log/command_track.log
+  service: {{ item.service }}
+  source: {{ item.source }}
+  tags:
+    - "env:{{ project_name }}"
+

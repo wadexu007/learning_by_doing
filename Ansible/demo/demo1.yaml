@@ -1,0 +1,57 @@
+# Demo playbook
+# $ ansible-playbook demo1.yaml \
+#     -i hosts/eng-dev.yaml \
+#     --extra-vars "user_id={{user_id}} key={{key}} project_name={{gcp_project_ID}} region={{region}}"
+
+- hosts: [all]
+  remote_user: "{{ user_id }}"
+  become: yes
+  become_method: sudo
+
+  vars:
+    # test variables
+    dest_config_location: /opt
+    # ansible variables
+    setup_src_location: "{{ playbook_dir }}"
+    project_name: "{{ project_name }}"
+    # datadog.yaml variables
+    log_level: "warn"
+    logs_enable: "true"
+    open_files_limit: 500
+
+  tasks:
+    ###########################
+    # Check Account #
+    ###########################
+    - name: Check automation user id password expires time
+      shell: "chage -l {{ user_id }}"
+      args:
+        warn: false
+
+    - name: Ensure my accounts do not expire
+      shell: "chage -M -1 {{ item }}"
+      with_items:
+        - "{{ user_id }}"
+      args:
+        warn: false
+      when: region == "apac"
+      ignore_errors: True
+
+    ###########################
+    # Assume make a config yaml then restart a service #
+    ###########################
+    - name: Create The "demo.yaml" File
+      template:
+        src: "{{ setup_src_location }}/templates/demo.yaml.j2"
+        dest: "{{ dest_config_location }}/config.yaml"
+        owner: "{{ user_id }}"
+        group: root
+        mode: '755'
+      notify:
+        - restart-nginx
+
+  handlers:
+    - name: restart-nginx
+      service:
+        name: nginx
+        state: restarted

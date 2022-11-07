@@ -1,0 +1,15 @@
+# Restarts Nginx service
+# $ ansible-playbook utils/nginx_restart.yaml \
+#     -i hosts/eng-dev.yaml --extra-vars "user_id={{user_id}}"
+
+- hosts: [all]
+  remote_user: "{{ user_id }}"
+  become: yes
+  become_method: sudo
+
+  tasks:    
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+        force: yes

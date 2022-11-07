@@ -1,0 +1,16 @@
+appservers:
+  hosts:  
+    35.189.22.11:
+    35.189.22.12:
+    # 35.189.22.13:
+    #   services:
+    #     log_collectors:
+    #       - service: msg-api
+    #         template: default
+    #         source: JAVA
+    #       - service: uc-api
+    #         template: test
+    #         source: GOLANG
+  vars:
+    region: apac
+    product: product-demo

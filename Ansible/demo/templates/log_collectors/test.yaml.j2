@@ -1,0 +1,7 @@
+
+- type: file
+  path: /var/log/test.log
+  service: {{ item.service }}
+  source: {{ item.source }}
+  tags:
+    - "env:{{ project_name }}"

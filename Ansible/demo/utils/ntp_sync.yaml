@@ -1,0 +1,22 @@
+# Syncs the NTP service to fix offset
+# $ ansible-playbook utils/ntp_sync.yaml \
+#     -i hosts/eng-dev.yaml --extra-vars "user_id={{user_id}}"
+
+- hosts: [all]
+  remote_user: "{{ user_id }}"
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - name: Stop the ntpd service
+      shell: "service ntpd stop"
+      args:
+        warn: false
+    - name: Update the ntpd service
+      shell: "ntpd -gq"
+      args:
+        warn: false
+    - name: Start the ntpd service 
+      shell: "service ntpd start"
+      args:
+        warn: false

@@ -1,0 +1,13 @@
+{% if (services is defined) and services %}
+init_config:
+
+{% if (services.log_collectors is defined) and services.log_collectors %}
+logs:
+{% for item in services.log_collectors %}
+{% if (item.template is defined) and (item.source is defined) %}
+{% include './templates/log_collectors/' + item.template + '.yaml.j2' %}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% endif %}

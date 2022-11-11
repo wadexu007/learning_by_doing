@@ -146,7 +146,7 @@ pipeline {
                 chown 1000:1000 deployment.yaml
                 echo start to deploy to cluster $CLUSTER_NAME
                 """
-                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.REGION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, Namespace: 'demo', verifyDeployments: true])
+                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.REGION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
             }
           }
         }

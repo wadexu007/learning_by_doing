@@ -2,12 +2,16 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - ../_common
-namespace: demo
+
+namespace: default
+
 commonLabels:
   app: demo-app
+
 replicas:
 - count: 1
   name: demo-app
+
 configMapGenerator:
 - files:
   - config.json
@@ -19,8 +23,10 @@ patches:
       value: demo-app
   target:
     name: NAME_PLACEHOLDER
+
 patchesStrategicMerge:
 - deployment-patch.yaml
+
 images:
 - name: wadexu007/demo
   newTag: 1.0.0

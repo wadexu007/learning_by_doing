@@ -8,7 +8,7 @@ spec:
       serviceAccountName: NAME_PLACEHOLDER
       containers:
       - name: app
-        image: wadexu007/demo:IMG_TAG_PLACEHOLDER
+        image: wadexu007/demo-app:IMG_TAG_PLACEHOLDER
         livenessProbe:
           failureThreshold: 5
           httpGet:

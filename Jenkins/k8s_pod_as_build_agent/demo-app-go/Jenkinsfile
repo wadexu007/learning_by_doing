@@ -1,6 +1,7 @@
 def dir_path = 'Jenkins/k8s_pod_as_build_agent/demo-app-go'
 def yaml_path = 'Jenkins/k8s_pod_as_build_agent/_common/build-pod.yaml'
-def image_name = 'demo'
+def image_name = 'demo-app' //image name and deployment name
+def namespace = 'demo'
 
 def get_git_commit_version(){
     def GIT_VERSION=sh (script: "git log | grep commit | awk 'NR==1{print \$2}' | cut -c1-8", returnStdout: true)
@@ -40,7 +41,13 @@ pipeline {
         script {
           container('git') {
             sh """git config --global --add safe.directory $WORKSPACE"""
-            def image_tag = env.BRANCH_NAME + "-" + get_git_commit_version()
+            // get branch name, support both pipelie job and multibranch pipeline
+            if (env.GIT_BRANCH.startsWith("origin/")){
+                env.BRANCH = env.GIT_BRANCH.split("/")[1]
+            } else {
+                env.BRANCH = env.GIT_BRANCH.split("/")[0]
+            }
+            def image_tag = env.BRANCH + "-" + get_git_commit_version()
             env.PROJECT_IMAGE_WITH_TAG = image_name + ":" + image_tag
             sh 'env'
           }
@@ -153,9 +160,23 @@ pipeline {
                   location: env.REGION,
                   manifestPattern: 'deployment.yaml',
                   credentialsId: env.CREDENTIALS_ID,
-                  verifyDeployments: true])
+                  verifyDeployments: false])
+                // verifyDeployments does not work for non-default namespace
+                // so use below command to check status of deployment
+                sh """
+                echo check status of deployment
+                kubectl rollout status deploy/$image_name -n $namespace --timeout=120s
+                """
             }
           }
+        }
+      }
+    }
+
+    stage('Wait for SRE Approval') {
+      steps {
+        timeout(time:72, unit:'HOURS') {
+          input message: "Approved Prod deployment?", submitter: 'sre-team'
         }
       }
     }
@@ -168,7 +189,6 @@ pipeline {
         CLUSTER_COMMON_NAME = 'demo-gke-prod'
       }
       steps {
-        input message: "Proceed with Prod deployment?"
         script {
           env.REGION = input message: 'Choose which region you want to deploy?',
                              parameters: [choice(name: 'Region',

@@ -21,7 +21,13 @@ pipeline {
         script {
           container('git') {
             sh """git config --global --add safe.directory $WORKSPACE"""
-            def image_tag = env.BRANCH_NAME + "-" + env.BUILD_NUMBER
+            // get branch name, support both pipelie job and multibranch pipeline
+            if (env.GIT_BRANCH.startsWith("origin/")){
+                env.BRANCH = env.GIT_BRANCH.split("/")[1]
+            } else {
+                env.BRANCH = env.GIT_BRANCH.split("/")[0]
+            }
+            def image_tag = env.BRANCH + "-" + env.BUILD_NUMBER
             def image_name = env.JOB_NAME.split("/")[0]
             env.PROJECT_IMAGE_WITH_TAG = image_name + ":" + image_tag
             sh 'env'

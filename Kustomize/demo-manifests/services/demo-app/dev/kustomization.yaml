@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
 - ../_common
 
-namespace: default
+namespace: demo
 
 commonLabels:
   app: demo-app
@@ -28,5 +28,5 @@ patchesStrategicMerge:
 - deployment-patch.yaml
 
 images:
-- name: wadexu007/demo
+- name: wadexu007/demo-app
   newTag: 1.0.0

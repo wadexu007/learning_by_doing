@@ -3,12 +3,10 @@
 ### Prerequisites
 1. A running Jenkins master in a Kubernetes cluster (my example use GKE 1.22) refer to [Installation Guide](../install_on_k8s/)
 2. A Service Account with k8s admin in a Target Cluster for deployment
-3. Firewall to Target Cluster from Jenkins shoud be allowed.
 
 ### Installed Plugin
 * Kubernetes Plugin
-* Google Kubernetes Engine Plugin
-* GitHub Integration Plugin (Optional)
+* Google Kubernetes Engine Plugin (For deployment to GKE cluster)
 
 ### Configuration
 1. go to `Manage Jenkins` –> `Manage Nodes and Clouds`
@@ -154,5 +152,9 @@ Refer to [kaniko](../kaniko-demo/) deployment is a better way.
 https://devopscube.com/jenkins-build-agents-kubernetes/
 https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline
 https://www.jenkins.io/doc/pipeline/steps/pipeline-input-step/
+
+
+## Known issue
+[Google Kubernetes Engine Plugin](https://github.com/jenkinsci/google-kubernetes-engine-plugin/blob/develop/docs/Home.md#usage) - verifyDeployments(boolean) does not work for non-default namespace https://github.com/jenkinsci/google-kubernetes-engine-plugin/issues/297
 
 <br>

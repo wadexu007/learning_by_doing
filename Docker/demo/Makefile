@@ -1,5 +1,5 @@
 export TAG=1.0.0
-export REPOSITORY=wadexu007/demo
+export REPOSITORY=wadexu007/demo-app
 
 hello:
 	echo "Welcome to order pizza system."

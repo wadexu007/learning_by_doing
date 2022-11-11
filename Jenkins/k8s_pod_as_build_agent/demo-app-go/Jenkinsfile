@@ -1,5 +1,6 @@
 def dir_path = 'Jenkins/k8s_pod_as_build_agent/demo-app-go'
 def yaml_path = 'Jenkins/k8s_pod_as_build_agent/_common/build-pod.yaml'
+def image_name = 'demo'
 
 def get_git_commit_version(){
     def GIT_VERSION=sh (script: "git log | grep commit | awk 'NR==1{print \$2}' | cut -c1-8", returnStdout: true)
@@ -40,7 +41,6 @@ pipeline {
           container('git') {
             sh """git config --global --add safe.directory $WORKSPACE"""
             def image_tag = env.BRANCH_NAME + "-" + get_git_commit_version()
-            def image_name = env.JOB_NAME.split("/")[0]
             env.PROJECT_IMAGE_WITH_TAG = image_name + ":" + image_tag
             sh 'env'
           }
@@ -96,40 +96,40 @@ pipeline {
     // }
 
     // assume your k8s manifests in another repo, mine is same repo, just in order to show git clone step
-    // stage('Checkout K8S manifests') {
-    //   steps {
-    //     script {
-    //       dir(dir_path) {
-    //         container('git') {
-    //           if (! fileExists('learning_by_doing/README.md')) {
-    //             sh """
-    //             git clone https://github.com/wadexu007/learning_by_doing.git
-    //             ls -lhrt
-    //             """
-    //           } else {
-    //               sh 'echo manifes repo already exist.'
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
+    stage('Checkout K8S manifests') {
+      steps {
+        script {
+          dir(dir_path) {
+            container('git') {
+              if (! fileExists('learning_by_doing/README.md')) {
+                sh """
+                git clone https://github.com/wadexu007/learning_by_doing.git
+                ls -lhrt
+                """
+              } else {
+                  sh 'echo manifes repo already exist.'
+              }
+            }
+          }
+        }
+      }
+    }
 
-    // stage('Build manifests with Kustomize') {
-    //   steps {
-    //     script {
-    //       dir(dir_path) {
-    //         container('kubectl-kustomize') {
-    //             sh """
-    //             cd learning_by_doing/Kustomize/demo-manifests/services/demo-app/dev/
-    //             kustomize edit set image $DOCKER_HUB_CREDS_USR/$PROJECT_IMAGE_WITH_TAG
-    //             kustomize build > $WORKSPACE/$dir_path/deployment.yaml
-    //             """
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
+    stage('Build manifests with Kustomize') {
+      steps {
+        script {
+          dir(dir_path) {
+            container('kubectl-kustomize') {
+                sh """
+                cd learning_by_doing/Kustomize/demo-manifests/services/demo-app/dev/
+                kustomize edit set image $DOCKER_HUB_CREDS_USR/$PROJECT_IMAGE_WITH_TAG
+                kustomize build > $WORKSPACE/$dir_path/deployment.yaml
+                """
+            }
+          }
+        }
+      }
+    }
 
     stage('Deploy to GKE test cluster') {
 			environment{
@@ -143,7 +143,7 @@ pipeline {
           dir(dir_path) {
             container('kubectl-kustomize') {
                 sh """
-                chmod 755 deployment.yaml
+                chmod 777 deployment.yaml
                 echo start to deploy to cluster $CLUSTER_NAME
                 """
                 step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.REGION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])

@@ -16,7 +16,6 @@ pipeline {
 
   environment {
     DOCKER_HUB_REGISTRY='https://index.docker.io/v1/'
-    DOCKER_HUB_ACCOUNT='wadexu007'
 
     //Jenkins Manage credentials - Usernames and passwords
     // Option 1: for docker.withRegistry
@@ -59,12 +58,12 @@ pipeline {
                 // build image with git tag
                 sh """
                 docker build -t $PROJECT_IMAGE_WITH_TAG .
-                docker tag $PROJECT_IMAGE_WITH_TAG $DOCKER_HUB_ACCOUNT/$PROJECT_IMAGE_WITH_TAG
+                docker tag $PROJECT_IMAGE_WITH_TAG $DOCKER_HUB_CREDS_USR/$PROJECT_IMAGE_WITH_TAG
                 """
 
                 // push image_tag to docker hub
                 sh """
-                docker push $DOCKER_HUB_ACCOUNT/$PROJECT_IMAGE_WITH_TAG
+                docker push $DOCKER_HUB_CREDS_USR/$PROJECT_IMAGE_WITH_TAG
                 """
             }
           }
@@ -82,12 +81,12 @@ pipeline {
     //               // build image with git tag
     //               sh """
     //               docker build -t $PROJECT_IMAGE_WITH_TAG .
-    //               docker tag $PROJECT_IMAGE_WITH_TAG $DOCKER_HUB_ACCOUNT/$PROJECT_IMAGE_WITH_TAG
+    //               docker tag $PROJECT_IMAGE_WITH_TAG $DOCKER_HUB_CREDS_USR/$PROJECT_IMAGE_WITH_TAG
     //               """
 
     //               // push image_tag to docker hub
     //               sh """
-    //               docker push $DOCKER_HUB_ACCOUNT/$PROJECT_IMAGE_WITH_TAG
+    //               docker push $DOCKER_HUB_CREDS_USR/$PROJECT_IMAGE_WITH_TAG
     //               """
     //           }
     //         }
@@ -123,7 +122,7 @@ pipeline {
             container('kubectl-kustomize') {
                 sh """
                 cd learning_by_doing/Kustomize/demo-manifests/services/demo-app/dev/
-                kustomize edit set image $DOCKER_HUB_ACCOUNT/$PROJECT_IMAGE_WITH_TAG
+                kustomize edit set image $DOCKER_HUB_CREDS_USR/$PROJECT_IMAGE_WITH_TAG
                 kustomize build > $WORKSPACE/$dir_path/deploy.yaml
                 cat $WORKSPACE/$dir_path/deploy.yaml
                 """

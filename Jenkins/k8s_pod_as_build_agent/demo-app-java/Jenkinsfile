@@ -9,7 +9,6 @@ pipeline {
 
   environment {
     DOCKER_HUB_REGISTRY = 'https://index.docker.io/v1/'
-    DOCKER_HUB_ACCOUNT = 'wadexu007'
     DOCKER_HUB_CREDS = credentials('wade_test_dockerhub')
   }
 
@@ -55,12 +54,12 @@ pipeline {
                 // build image with image tag
                 sh """
                 docker build -t $PROJECT_IMAGE_WITH_TAG .
-                docker tag $PROJECT_IMAGE_WITH_TAG $DOCKER_HUB_ACCOUNT/$PROJECT_IMAGE_WITH_TAG
+                docker tag $PROJECT_IMAGE_WITH_TAG $DOCKER_HUB_CREDS_USR/$PROJECT_IMAGE_WITH_TAG
                 """
 
                 // push image_tag to docker hub
                 sh """
-                docker push $DOCKER_HUB_ACCOUNT/$PROJECT_IMAGE_WITH_TAG
+                docker push $DOCKER_HUB_CREDS_USR/$PROJECT_IMAGE_WITH_TAG
                 """
             }
           }

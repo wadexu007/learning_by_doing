@@ -8,6 +8,8 @@ spec:
       env:
         - name: M2_HOME # setting .m2 path
           value: "/maven/.m2"
+        - name: MAVEN_CONFIG
+          value: "/maven/.m2"
       resources:  # limits the resources your build contaienr
         requests:
           memory: "8Gi"

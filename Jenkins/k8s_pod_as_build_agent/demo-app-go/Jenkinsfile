@@ -124,7 +124,6 @@ pipeline {
                 cd learning_by_doing/Kustomize/demo-manifests/services/demo-app/dev/
                 kustomize edit set image $DOCKER_HUB_CREDS_USR/$PROJECT_IMAGE_WITH_TAG
                 kustomize build > $WORKSPACE/$dir_path/deployment.yaml
-                chmod 755 $WORKSPACE/$dir_path/deployment.yaml
                 """
             }
           }
@@ -143,7 +142,10 @@ pipeline {
         script {
           dir(dir_path) {
             container('kubectl-kustomize') {
-                sh 'echo deploy to cluster $CLUSTER_NAME'
+                sh """
+                chmod 755 deployment.yaml
+                echo start to deploy to cluster $CLUSTER_NAME
+                """
                 step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.REGION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
             }
           }

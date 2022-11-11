@@ -1,0 +1,31 @@
+kind: Pod
+spec:
+  containers:  # list of containers that you want present for your build, you can define a default container in the Jenkinsfile
+    - name: git
+      image: bitnami/git:2.38.1
+      imagePullPolicy: IfNotPresent
+      command: ["tail", "-f", "/dev/null"]
+      resources:
+        limits:
+          cpu: 100m
+          memory: 256Mi
+    - name: kaniko
+      image: gcr.io/kaniko-project/executor:v1.9.0-debug # include shell
+      imagePullPolicy: IfNotPresent
+      command:
+        - /busybox/cat
+      tty: true
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1024Mi
+      volumeMounts:
+      - name: kaniko-secret
+        mountPath: /kaniko/.docker
+  volumes:
+  - name: kaniko-secret
+    secret:
+        secretName: dockercred
+        items:
+        - key: .dockerconfigjson
+          path: config.json

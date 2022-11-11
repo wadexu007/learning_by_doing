@@ -18,15 +18,16 @@ The content of this repository is based on a return of several years of experien
 | Ansible       | Infra as code   | Ansible is a suite of software tools that enables infrastructure as code. It is open-source and the suite includes software provisioning, configuration management, and application deployment functionality. [Learn More](./Ansible/) |
 | Argo          | CICD            | Open source tools for Kubernetes to run workflows, manage clusters, and do GitOps right. [Learn More](./Argo/) |
 | Atlantis      | Tools           | Atlantis is an application for automating Terraform via pull requests. [Learn More](./Atlantis/) |
-| Datadog       | Monitoring as code | Datadog provides cloud-scale monitoring and security for metrics, traces and logs in one unified platform. [Learn More](./Datadog/) |
+| Datadog       | Observability   | Datadog provides cloud-scale monitoring and security for metrics, traces and logs in one unified platform. [Learn More](./Datadog/) |
 | Docker        | Tools           | Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers. [Learn More](./Docker/) |
 | Emissary      | Gateway         | Emissary Ingress (formerly known as Ambassador) API gateway is an open source Kubernetes-native API gateway built on the Envoy Proxy. [Learn More](./Emissary/) |
 | Github Actions | CICD            | GitHub Actions is a continuous integration and continuous delivery (CI/CD) platform that allows you to automate your build, test, and deployment pipeline. [Learn More](./Github%20Actions/) |
 | Golang        | Language        | Golang is an open source programming language that makes it easy to build simple, reliable, and efficient software. [Learn More](./Golang/) |
+| Grafana       | Observability   | TBD |
 | Helm          | Tools           | Helm helps you manage Kubernetes applications — Helm Charts help you define, install, and upgrade even the most complex Kubernetes application. [Learn More](./Helm/) |
 | Ingress-nginx | Gateway         | Kubernetes ingress-nginx is an Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer. [Learn More](./Ingress-nginx/) |
 | Istio         | Gateway         | Istio extends Kubernetes to establish a programmable, application-aware network using the powerful Envoy service proxy. [Learn More](./Istio/) |
-| Jenkins       | CICD            | TBD |
+| Jenkins       | CICD            | Jenkins is an open source automation server which enables developers around the world to reliably build, test, and deploy their software. [Learn More](./Jenkins/) |
 | Kubernetes    | Infra           | Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications. [Learn More](./Kubernetes/) |
 | Kustomize     | Tools           | Kustomize is a Kubernetes configuration transformation tool that enables you to customize untemplated YAML files, leaving the original files untouched. [Learn More](./Emissary/) |
 | ProFTPD       | Tools           | ProFTPD is a high-performance, extremely configurable, and most of all a secure FTP server, featuring Apache-like configuration and blazing performance. [Learn More](./ProFTPD/) |

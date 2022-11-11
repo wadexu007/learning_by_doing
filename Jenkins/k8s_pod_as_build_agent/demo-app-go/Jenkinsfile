@@ -1,0 +1,189 @@
+def dir_path = 'Jenkins/k8s_pod_as_build_agent/demo-app-go'
+def yaml_path = 'Jenkins/k8s_pod_as_build_agent/_common/build-pod.yaml'
+
+def get_git_commit_version(){
+    def GIT_VERSION=sh (script: "git log | grep commit | awk 'NR==1{print \$2}' | cut -c1-8", returnStdout: true)
+    def GIT_VERSION_TRUNCATED = GIT_VERSION.substring(0, 8)
+
+    return GIT_VERSION_TRUNCATED
+}
+
+pipeline {
+  options {
+    timeout(time: 10, unit: 'MINUTES')
+    buildDiscarder(logRotator(numToKeepStr: '10', daysToKeepStr: '7'))
+  }
+
+  environment {
+    DOCKER_HUB_REGISTRY='https://index.docker.io/v1/'
+    DOCKER_HUB_ACCOUNT='wadexu007'
+
+    //Jenkins Manage credentials - Usernames and passwords
+    // Option 1: for docker.withRegistry
+    DOCKER_HUB_CREDENTIAL = 'wade_test_dockerhub'
+
+    // Option 2: for docker command directly
+    DOCKER_HUB_CREDS = credentials('wade_test_dockerhub')
+  }
+
+  agent {
+    kubernetes {
+      idleMinutes 3  // how long the pod will live after no jobs have run on it
+      yamlFile yaml_path  // path to the pod definition relative to the root of our project 
+      defaultContainer 'docker'  // define a default container if more than a few stages use it, otherwise default to jnlp container
+    }
+  }
+  stages {
+
+    stage('Init') {
+      steps {
+        script {
+          container('git') {
+            sh """git config --global --add safe.directory $WORKSPACE"""
+            def image_tag = env.BRANCH_NAME + "-" + get_git_commit_version()
+            def image_name = env.JOB_NAME.split("/")[0]
+            env.PROJECT_IMAGE_WITH_TAG = image_name + ":" + image_tag
+            sh 'env'
+          }
+        }
+      }
+    }
+
+    stage('Build and Push Docker Image') {
+      steps {
+        script {
+          dir(dir_path) {
+            container('docker') {
+                // docker login, Using single-quotes instead of double-quotes when referencing these sensitive environment variables prevents this type of leaking.
+                sh 'echo $DOCKER_HUB_CREDS_PSW | docker login -u $DOCKER_HUB_CREDS_USR --password-stdin $DOCKER_HUB_REGISTRY'
+                // build image with git tag
+                sh """
+                docker build -t $PROJECT_IMAGE_WITH_TAG .
+                docker tag $PROJECT_IMAGE_WITH_TAG $DOCKER_HUB_ACCOUNT/$PROJECT_IMAGE_WITH_TAG
+                """
+
+                // push image_tag to docker hub
+                sh """
+                docker push $DOCKER_HUB_ACCOUNT/$PROJECT_IMAGE_WITH_TAG
+                """
+            }
+          }
+        }
+      }
+    }
+
+    // This way will prompt WARNING! Using --password via the CLI is insecure.
+    // stage('Build and Push Docker Image') {
+    //   steps {
+    //     script {
+    //       dir(dir_path) {
+    //         docker.withRegistry("$DOCKER_HUB_REGISTRY", "$DOCKER_HUB_CREDENTIAL") {
+    //           container('docker') {  
+    //               // build image with git tag
+    //               sh """
+    //               docker build -t $PROJECT_IMAGE_WITH_TAG .
+    //               docker tag $PROJECT_IMAGE_WITH_TAG $DOCKER_HUB_ACCOUNT/$PROJECT_IMAGE_WITH_TAG
+    //               """
+
+    //               // push image_tag to docker hub
+    //               sh """
+    //               docker push $DOCKER_HUB_ACCOUNT/$PROJECT_IMAGE_WITH_TAG
+    //               """
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+
+    // assume your k8s manifests in another repo, mine is same repo, just in order to show git clone step
+    stage('Checkout K8S manifests') {
+      steps {
+        script {
+          dir(dir_path) {
+            container('git') {
+              if (! fileExists('learning_by_doing/README.md')) {
+                sh """
+                git clone https://github.com/wadexu007/learning_by_doing.git
+                ls -lhrt
+                """
+              } else {
+                  sh 'echo manifes repo already exist.'
+              }
+            }
+          }
+        }
+      }
+    }
+
+    stage('Build manifests with Kustomize') {
+      steps {
+        script {
+          dir(dir_path) {
+            container('kubectl-kustomize') {
+                sh """
+                cd learning_by_doing/Kustomize/demo-manifests/services/demo-app/dev/
+                kustomize edit set image $DOCKER_HUB_ACCOUNT/$PROJECT_IMAGE_WITH_TAG
+                kustomize build > $WORKSPACE/$dir_path/deploy.yaml
+                cat $WORKSPACE/$dir_path/deploy.yaml
+                """
+            }
+          }
+        }
+      }
+    }
+
+    stage('Deploy to GKE test cluster') {
+			environment{
+				PROJECT_ID = 'xperiences-eng-cn-dev'
+        CLUSTER_NAME = 'xpe-dev-gke'
+        REGION = 'asia-east2'
+        CREDENTIALS_ID = 'gcp_sa_json_key'
+      }
+      steps {
+        script {
+          dir(dir_path) {
+            container('kubectl-kustomize') {
+                sh 'echo deploy to cluster $CLUSTER_NAME'
+                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.REGION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+            }
+          }
+        }
+      }
+    }
+
+    // deployment to multipe k8s clusters
+    stage('Deploy to GKE Prod cluster') {
+			environment{
+				PROJECT_ID = 'sre-cn-dev'
+        CREDENTIALS_ID = 'gcp_sa_json_key'
+        CLUSTER_COMMON_NAME = 'demo-gke-prod'
+      }
+      steps {
+        input message: "Proceed with Prod deployment?"
+        script {
+          env.REGION = input message: 'Choose which region you want to deploy?',
+                             parameters: [choice(name: 'Region',
+                                                description: 'Select Region to Deloy',
+                                                choices: ['europe-west1', 'us-central1'])
+                                          ]
+          dir(dir_path) {
+            if ( env.REGION == "europe-west1" ) {
+              def eu_cluster_name = env.CLUSTER_COMMON_NAME + "-eu"
+              container('kubectl-kustomize') {
+                  sh "echo deploy to cluster $eu_cluster_name in region: $REGION"
+              }
+            }
+            if ( env.REGION == "us-central1" ) {
+              def us_cluster_name = env.CLUSTER_COMMON_NAME + "-us"
+              container('kubectl-kustomize') {
+                  sh "echo deploy to cluster $us_cluster_name in region: $REGION"
+              }
+            }
+          }
+        }
+      }
+    }
+
+  }
+}

@@ -161,12 +161,7 @@ pipeline {
                   manifestPattern: 'deployment.yaml',
                   credentialsId: env.CREDENTIALS_ID,
                   verifyDeployments: false])
-                // verifyDeployments does not work for non-default namespace
-                // so use below command to check status of deployment
-                sh """
-                echo check status of deployment
-                kubectl rollout status deploy/$image_name -n $namespace --timeout=120s
-                """
+                  // verifyDeployments does not work for non-default namespace
             }
           }
         }

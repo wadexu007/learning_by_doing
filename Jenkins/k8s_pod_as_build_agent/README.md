@@ -2,7 +2,8 @@
 
 ### Prerequisites
 1. A running Jenkins master in a Kubernetes cluster (my example use GKE 1.22) refer to [Installation Guide](../install_on_k8s/)
-2. A Service Account with k8s admin in a Target Cluster for deployment
+2. A Service Account with k8s admin in a target cluster for deployment
+3. Firewall to target cluster from Jenkins should be allowed.
 
 ### Installed Plugin
 * Kubernetes Plugin
@@ -147,6 +148,19 @@ Your docker container doesn't contains Docker daemon(engine), to resolve it, mou
 Running docker in docker using docker.sock method is less secure as it has complete privileges over the docker daemon.
 Refer to [kaniko](../kaniko-demo/) deployment is a better way.
 
+
+* **Issue 6**: Make sure firewall rule is opened. Allow Jenkins access to Target k8s cluster on port 443.
+```
+Logs: Unable to connect to the server: dial tcp 34.92.xx.xxx:443: i/o timeout
+```
+
+* **Issue 7**: Make sure grant jenkins user/group to deployment.yaml `chown 1000:1000 deployment.yaml`
+```
+Also:   hudson.remoting.Channel$CallSiteStackTrace: Remote call to JNLP4-connect connection from 172.20.72.150/172.20.72.150:44864
+......
+......
+java.nio.file.AccessDeniedException: /home/jenkins/agent/workspace/xxx/xxx/demo-app-go/deployment.yaml
+```
 
 ## Useful links
 https://devopscube.com/jenkins-build-agents-kubernetes/

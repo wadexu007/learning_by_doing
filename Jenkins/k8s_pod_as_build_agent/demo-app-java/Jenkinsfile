@@ -33,8 +33,10 @@ pipeline {
     }
 
     stage('Compile') {
-      steps {  // no container directive is needed as the maven container is the default
-        sh "mvn clean package"   
+      dir(dir_path) {
+        steps {  // no container directive is needed as the maven container is the default
+          sh "mvn clean package"   
+        }
       }
     }
 

@@ -7,7 +7,7 @@
 ### Installed Plugin
 * Kubernetes Plugin
 * Google Kubernetes Engine Plugin
-* GitHub Integration Plugin
+* GitHub Integration Plugin (Optional)
 
 ### Configuration
 1. go to `Manage Jenkins` –> `Manage Nodes and Clouds`
@@ -23,6 +23,10 @@
 11. Input `Name`=`jenkins-agent`, `Namespace`=`jenkins`, `Labels`=`kubeagent`
 12. (Optional)  If you don’t add a container template, the Jenkins Kubernetes plugin will use the default JNLP image from the Docker hub to spin up the agents. But if your Jenkins can't access Docker Hub. Then build your own `jnlp` image and override the default with the same name. Click `Add Container` to add Container Template, `Name`=`jnlp`, `Docker Image`=`your_registry/jenkins/inbound-agent:4.11-1-jdk11`, **Ensure that you remove the sleep and 9999999 default argument from the container template**.
 
+### Manage Credentials
+* Add `Usernames with password` for docker hub account/pwd
+* Add `Google Service Account from private key`
+Replace Jenkinsfile - environment variable to yours.
 
 ## Test a freestyle project
 Go to Jenkins home –> New Item and create a freestyle project.
@@ -42,7 +46,7 @@ In a short while, you will see a successful build.
 ## Declarative-pipeline
 Use Jenkinsfile With Pod Template, the Pod template is defined inside the kubernetes { } block.
 * **Reference**:
- * a quick start for java app CI (demo-app-java/Jenkinsfile)
+ * A quick start for java app CI (demo-app-java/Jenkinsfile)
  * CICD for a golang app  (demo-app-go/Jenkinsfile)
  
 The demo-app-go example is more complex with below scenarios:
@@ -83,7 +87,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: maven-repo-storage
-  namespace: devops-tools
+  namespace: jenkins
 spec:
   accessModes:
     - ReadWriteOnce

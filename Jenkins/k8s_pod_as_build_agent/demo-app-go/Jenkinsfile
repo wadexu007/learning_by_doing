@@ -134,7 +134,7 @@ pipeline {
     stage('Deploy to GKE test cluster') {
 			environment{
 				PROJECT_ID = 'xperiences-eng-cn-dev'
-        CLUSTER_NAME = 'xpe-spark-test-gke'
+        CLUSTER_NAME = 'xpe-dev-gke'
         REGION = 'asia-east2'
         CREDENTIALS_ID = 'gcp_sa_json_key'
       }

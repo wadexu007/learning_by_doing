@@ -124,7 +124,7 @@ pipeline {
                 cd learning_by_doing/Kustomize/demo-manifests/services/demo-app/dev/
                 kustomize edit set image $DOCKER_HUB_CREDS_USR/$PROJECT_IMAGE_WITH_TAG
                 kustomize build > $WORKSPACE/$dir_path/deployment.yaml
-                cat $WORKSPACE/$dir_path/deployment.yaml
+                chmod 755 $WORKSPACE/$dir_path/deployment.yaml
                 """
             }
           }

@@ -5,25 +5,21 @@ spec:
       image: maven:3.5.4-jdk-8-slim
       command: ["tail", "-f", "/dev/null"]  # this or any command that is bascially a noop is required, this is so that you don't overwrite the entrypoint of the base container
       imagePullPolicy: Always # use cache or pull image for agent
-      env:
-        - name: M2_HOME # setting .m2 path
-          value: "/maven/.m2"
-        - name: MAVEN_CONFIG
-          value: "/maven/.m2"
-      resources:  # limits the resources your build contaienr
+      resources:  # request and limit the resources your build contaienr
         requests:
-          memory: "8Gi"
-          cpu: "500m"
+          memory: 4Gi
+          cpu: 2
         limits:
-          memory: "8Gi"
+          memory: 4Gi
+          cpu: 2
       volumeMounts:
-        - mountPath: /maven/.m2
+        - mountPath: /root/.m2 # maven .m2 cache directory
           name: maven-home
     - name: git
       image: bitnami/git:2.38.1
       imagePullPolicy: IfNotPresent
       command: ["tail", "-f", "/dev/null"]
-      resources:
+      resources: # limit the resources your build contaienr
         limits:
           cpu: 100m
           memory: 256Mi
@@ -31,7 +27,7 @@ spec:
       image: line/kubectl-kustomize:1.25.3-4.5.7
       imagePullPolicy: IfNotPresent
       command: ["tail", "-f", "/dev/null"]
-      resources:
+      resources: # limit the resources your build contaienr
         limits:
           cpu: 100m
           memory: 256Mi

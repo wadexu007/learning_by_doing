@@ -11,3 +11,17 @@ spec:
     port: 8080
     targetPort: 4141
     protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  jenkins-demo-ext-svc
+spec:
+  type: ExternalName
+  externalName: jenkins-service.jenkins.svc.cluster.local
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+    protocol: TCP

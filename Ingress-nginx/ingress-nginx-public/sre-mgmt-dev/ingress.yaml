@@ -25,7 +25,18 @@ spec:
             name: atlantis-demo-ext-svc
             port:
               number: 8080
+  - host: jenkins-demo.wadexu.cloud
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: jenkins-demo-ext-svc
+            port:
+              number: 8080
   tls:
   - hosts:
     - atlantis-demo.wadexu.cloud
+    - jenkins-demo.wadexu.cloud
     secretName: wade-tls-secret

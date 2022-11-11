@@ -7,6 +7,7 @@ Reference: https://www.runatlantis.io/docs/deployment.html#kubernetes-kustomize
 
 ## Installation
 #### Prerequisites
+* A running kubernetes cluster
 * Prepare a github user
 * Prepare a [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#creating-a-token)
 * Use any random string generator to create a [Webhook Secret](https://www.runatlantis.io/docs/webhook-secrets.html)

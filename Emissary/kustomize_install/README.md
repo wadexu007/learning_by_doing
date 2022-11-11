@@ -7,6 +7,7 @@ https://kustomize.io/
 Quick start from [my example](../../Kustomize/demo-manifests/README.md)
 
 ### Prerequisites
+* A running kubernetes cluster (my example use GKE 1.22)
 * [Kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) 3.10.0
 * Emissary-Ingress 3.2.0
 * Prepare a tls secret

@@ -96,45 +96,45 @@ pipeline {
     // }
 
     // assume your k8s manifests in another repo, mine is same repo, just in order to show git clone step
-    stage('Checkout K8S manifests') {
-      steps {
-        script {
-          dir(dir_path) {
-            container('git') {
-              if (! fileExists('learning_by_doing/README.md')) {
-                sh """
-                git clone https://github.com/wadexu007/learning_by_doing.git
-                ls -lhrt
-                """
-              } else {
-                  sh 'echo manifes repo already exist.'
-              }
-            }
-          }
-        }
-      }
-    }
+    // stage('Checkout K8S manifests') {
+    //   steps {
+    //     script {
+    //       dir(dir_path) {
+    //         container('git') {
+    //           if (! fileExists('learning_by_doing/README.md')) {
+    //             sh """
+    //             git clone https://github.com/wadexu007/learning_by_doing.git
+    //             ls -lhrt
+    //             """
+    //           } else {
+    //               sh 'echo manifes repo already exist.'
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
 
-    stage('Build manifests with Kustomize') {
-      steps {
-        script {
-          dir(dir_path) {
-            container('kubectl-kustomize') {
-                sh """
-                cd learning_by_doing/Kustomize/demo-manifests/services/demo-app/dev/
-                kustomize edit set image $DOCKER_HUB_CREDS_USR/$PROJECT_IMAGE_WITH_TAG
-                kustomize build > $WORKSPACE/$dir_path/deployment.yaml
-                """
-            }
-          }
-        }
-      }
-    }
+    // stage('Build manifests with Kustomize') {
+    //   steps {
+    //     script {
+    //       dir(dir_path) {
+    //         container('kubectl-kustomize') {
+    //             sh """
+    //             cd learning_by_doing/Kustomize/demo-manifests/services/demo-app/dev/
+    //             kustomize edit set image $DOCKER_HUB_CREDS_USR/$PROJECT_IMAGE_WITH_TAG
+    //             kustomize build > $WORKSPACE/$dir_path/deployment.yaml
+    //             """
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
 
     stage('Deploy to GKE test cluster') {
 			environment{
 				PROJECT_ID = 'xperiences-eng-cn-dev'
-        CLUSTER_NAME = 'xpe-dev-gke'
+        CLUSTER_NAME = 'xpe-spark-test-gke'
         REGION = 'asia-east2'
         CREDENTIALS_ID = 'gcp_sa_json_key'
       }

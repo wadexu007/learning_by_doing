@@ -9,12 +9,12 @@ on:
     - main
     - develop
     paths:
-      - 'helm-go-client/**'
+      - 'Golang/helm-go-client/**'
   pull_request:
     branches:
     - main
     paths:
-      - 'helm-go-client/**'
+      - 'Golang/helm-go-client/**'
 jobs:
 # The "build" workflow
   build:
@@ -32,10 +32,10 @@ jobs:
     - name: Setup go
       uses: actions/setup-go@v3
       with:
-        go-version-file: 'helm-go-client/go.mod'
+        go-version-file: 'Golang/helm-go-client/go.mod'
         check-latest: true
         cache: true
-        cache-dependency-path: helm-go-client/go.sum
+        cache-dependency-path: Golang/helm-go-client/go.sum
     # Docker login to GCR
     - name: Login to GCR
       uses: docker/login-action@v2
@@ -47,9 +47,9 @@ jobs:
     - name: build application
       id: build_app
       run: |-
-        VER=`cat helm-go-client/Makefile| grep TAG= | awk -F "=" 'NR==1{print $2}'`
+        VER=`cat Golang/helm-go-client/Makefile| grep TAG= | awk -F "=" 'NR==1{print $2}'`
         GIT_COMMIT=$(git log | grep commit | awk 'NR==1{print $2}' | cut -c1-7) 
-        cd helm-go-client
+        cd Golang/helm-go-client
         make push TAG2=-$GIT_COMMIT
         # set output
         echo "::set-output name=image_tag::$(echo "$VER-$GIT_COMMIT")"

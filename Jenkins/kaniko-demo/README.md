@@ -7,7 +7,8 @@ Previously, we build docker in docker using mounting `docker.sock` to host way, 
 ## Build Docker Image In Kubernetes Using Kaniko
 ### Prerequisites
 1. Jenkins running on Kubernetes cluster
-2. Docker hub account ready
+2. Docker Hub account ready
+3. Firewall allowed Jenkins outbound to Docker Hub
 
 ### Create Dockerhub Kubernetes Secret
 We have to create a kubernetes secret of type docker-registry for the kaniko pod to authenticate the Docker hub registry and push the image in `jenkins` namespace.

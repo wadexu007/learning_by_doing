@@ -9,12 +9,12 @@ on:
     - main
     - hackathon
     paths:
-      - 'golang/**'
+      - 'Golang/**'
       - 'java/**'
 
 env:
   # define program in which directory
-  GO_DIR: golang
+  GO_DIR: Golang
   JAVA_DIR: java
   # NODE_DIR: frontend
 
@@ -46,7 +46,7 @@ jobs:
         GITHUB_EVENT_BE: ${{ github.event.before }}
       run: ./.github/scripts/get_changed.sh
       shell: bash
-    # set matrix, json result example {"include":[{"module": "demo-app", "type": "golang"}]}
+    # set matrix, json result example {"include":[{"module": "demo-app", "type": "Golang"}]}
     - name: Set matrix for build
       id: set-matrix
       run: |

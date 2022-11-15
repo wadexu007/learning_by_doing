@@ -3,7 +3,8 @@
 ### Prerequisites
 1. A running Jenkins master in a Kubernetes cluster (my example use GKE 1.22) refer to [Installation Guide](../install_on_k8s/)
 2. A Service Account with k8s admin in a target cluster for deployment
-3. Firewall to target cluster from Jenkins should be allowed.
+3. Firewall allowed Jenkins outbound to Docker Hub
+4. Firewall to target cluster from Jenkins should be allowed.
 
 ### Installed Plugin
 * Kubernetes Plugin
@@ -51,10 +52,10 @@ Use Jenkinsfile With Pod Template, the Pod template is defined inside the kubern
  
 The demo-app-go example is more complex with below scenarios:
 * CI + Kustomize build k8s YAMLs + Deploy to one cluster
-* Deploy to multiple clusters in different regions with user interaction via Jenkins [Pipelie: Input Step](https://www.jenkins.io/doc/pipeline/steps/pipeline-input-step/) function.
+* Deploy to multiple clusters in different regions with user interaction via Jenkins [Pipeline: Input Step](https://www.jenkins.io/doc/pipeline/steps/pipeline-input-step/) function.
 
 
-**Now you can create a Pipelie or Multibranch Pipeline job in Jenkins to test.**
+**Now you can create a Pipeline or Multibranch Pipeline job in Jenkins to test.**
 1. Repository URL = `https://github.com/wadexu007/learning_by_doing`
 2. Script Path, e.g. `Jenkins/k8s_pod_as_build_agent/demo-app-java/Jenkinsfile`
 

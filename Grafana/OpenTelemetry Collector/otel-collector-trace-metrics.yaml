@@ -1,0 +1,143 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: otel
+---
+apiVersion: v1
+data:
+  otel-collector-config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+          http:
+      k8s_cluster:
+        collection_interval: 10s
+    processors:
+      batch:
+      memory_limiter:
+        check_interval: 5s
+        limit_mib: 4000
+        spike_limit_mib: 800
+      metricstransform:
+        transforms:
+          include: .+
+          match_type: regexp
+          action: update
+          operations:
+            - action: add_label
+              new_label: cluster_name
+              new_value: sre-test-gke
+            - action: add_label
+              new_label: env_type
+              new_value: k8s
+    exporters:
+      logging:
+        verbosity: normal
+      prometheusremotewrite:
+        endpoint: https://<userID>:<Grafana API Key>@prometheus-us-central1.grafana.net/api/prom/push
+        resource_to_telemetry_conversion:
+          enabled: true
+      otlp:
+        endpoint: tempo-us-central1.grafana.net:443
+        headers:
+          authorization: Basic <base64 data>
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: [batch, memory_limiter]
+          exporters: [logging, otlp]
+        metrics:
+          receivers: [k8s_cluster]
+          processors: [batch, memory_limiter, metricstransform]
+          exporters: [prometheusremotewrite]
+kind: ConfigMap
+metadata:
+  labels:
+    app: opentelemetry
+    component: otel-collector-conf
+  name: otel-collector-conf
+  namespace: otel
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: otel-collector
+  labels:
+    app: opentelemetry
+    component: otel-collector
+  namespace: otel
+spec:
+  ports:
+  - name: otlp
+    port: 4317
+    targetPort: 4317
+    protocol: TCP
+  - name: otlp-http
+    port: 4318
+    targetPort: 4318
+    protocol: TCP
+  selector:
+    component: otel-collector
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-collector
+  labels:
+    app: opentelemetry
+    component: otel-collector
+  namespace: otel
+spec:
+  selector:
+    matchLabels:
+      app: opentelemetry
+      component: otel-collector
+  minReadySeconds: 5
+  progressDeadlineSeconds: 120
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: opentelemetry
+        component: otel-collector
+    spec:
+      serviceAccountName: otel-collector
+      containers:
+        - command:
+            - "/otelcol-contrib"
+            - "--config=/conf/otel-collector-config.yaml"
+          image: otel/opentelemetry-collector-contrib:0.64.1
+          imagePullPolicy: IfNotPresent
+          name: otel-collector
+          resources:
+            limits:
+              cpu: 200m
+              memory: 200Mi
+            requests:
+              cpu: 200m
+              memory: 200Mi
+          ports:
+            - containerPort: 4317 # New Default endpoint for OpenTelemetry receiver.
+            - containerPort: 55680 # Default endpoint for OpenTelemetry receiver.
+            - containerPort: 8888  # Default endpoint for querying metrics.
+          env:
+            - name: K8S_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          volumeMounts:
+            - name: otel-collector-config-vol
+              mountPath: /conf
+      volumes:
+        - configMap:
+            name: otel-collector-conf
+            items:
+              - key: otel-collector-config
+                path: otel-collector-config.yaml
+          name: otel-collector-config-vol

@@ -1,23 +1,3 @@
----
-# order-pizza service in exercise namespace
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: order-pizza-svc
-  name: order-pizza-svc
-  namespace: exercise
-spec:
-  ports:
-  - name: http
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
-  selector:
-    app: order-pizza
-  type: NodePort
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -42,24 +22,6 @@ spec:
       labels:
         app: order-pizza
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: cloud.google.com/gke-nodepool
-                operator: In
-                values:
-                - app-pool
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - order-pizza
-            topologyKey: kubernetes.io/hostname
       containers:
       - env:
         - name: AGENT_HOST
@@ -101,54 +63,16 @@ spec:
         - name: config-volume
           mountPath: /app/conf/config.json
           subPath: config.json
-        # - mountPath: /data
-        #   name: gcp-filestore-test
       volumes:
       - name: config-volume
         configMap:
           name: order-pizza-exercise-config
-      # - name: gcp-filestore-test
-      #   persistentVolumeClaim:
-      #     claimName: gcp-filestore-test-claim
-      #     readOnly: false
       tolerations:
       - effect: NoSchedule
         key: app
         operator: Equal
         value: "true"
       terminationGracePeriodSeconds: 20
----
-# # pv
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: gcp-filestore-test
-# spec:
-#   capacity:
-#     storage: 10Gi
-#   accessModes:
-#   - ReadWriteMany
-#   nfs:
-#     path: /u01
-#     server: 10.127.2.106
-# ---
-# # pvc
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: gcp-filestore-test-claim
-#   namespace: exercise
-# spec:
-#   # Specify "" as the storageClassName so it matches the PersistentVolume's StorageClass.
-#   # A nil storageClassName value uses the default StorageClass. For details, see
-#   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#class-1
-#   accessModes:
-#   - ReadWriteMany
-#   storageClassName: ""
-#   volumeName: gcp-filestore-test
-#   resources:
-#     requests:
-#       storage: 10Gi
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -163,3 +87,21 @@ data:
 metadata:
   name: order-pizza-exercise-config
   namespace: exercise
+---
+# order-pizza service in exercise namespace
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: order-pizza-svc
+  name: order-pizza-svc
+  namespace: exercise
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: order-pizza
+  type: NodePort

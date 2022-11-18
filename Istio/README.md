@@ -36,7 +36,7 @@ exercise          Active   28d     enabled
 ```
 
 ### Create a deployment
-This is my demo app about [oder pizza](../Golang/simple_httpserver_mvcs/)
+This is my demo app about [order pizza](../Golang/demo_app_with_prometheus/)
 ```
 kubectl apply -f deployment.yaml
 

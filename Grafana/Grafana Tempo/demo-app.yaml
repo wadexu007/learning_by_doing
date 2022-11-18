@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookstore
+  namespace: exercise
+  labels:
+    app: bookstore
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookstore
+  template:
+    metadata:
+      labels:
+        app: bookstore
+    spec:
+      containers:
+      - name: app
+        ports:
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+        env:
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: "grafana-agent-traces.trace.svc.cluster.local:4317"
+        - name: SERVICE_NAME
+          value: "instrumented-bookstore-app"
+        - name: INSECURE_MODE
+          value: "true"
+        readinessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /books
+            port: 8080
+        livenessProbe:
+          httpGet:
+            path: /books
+            port: 8080
+        image: wadexu007/instrumented-app:1.0.0
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: bookstore
+  name: bookstore
+  namespace: exercise
+spec:
+  type: NodePort
+  selector:
+    app: bookstore
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080

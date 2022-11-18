@@ -1,0 +1,6 @@
+server:
+  remoteWrite:
+  - url: "https://prometheus-us-central1.grafana.net/api/prom/push"
+    basic_auth:
+      username: <your_grafana_cloud_metrics_username>
+      password: <your_grafana_cloud_metrics_password>

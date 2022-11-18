@@ -1,7 +1,5 @@
 export TAG=1.0.6
-export PROJECT=exercise-pizza
-export CR=wadexu007
-export TAG2?=-none
+export REPO=wadexu007/exercise-pizza
 
 hello:
 	echo "Welcome to pizza order system."
@@ -12,8 +10,8 @@ local:
 
 build: hello
 	echo "building docker container"
-	docker build -t ${CR}/${PROJECT}:${TAG}${TAG2} .
+	docker build -t ${REPO}:${TAG} .
 
 push: build
 	echo "pushing to my gcr"
-	docker push ${CR}/${PROJECT}:${TAG}${TAG2}
+	docker push ${REPO}:${TAG}

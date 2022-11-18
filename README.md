@@ -23,7 +23,7 @@ The content of this repository is based on a return of several years of experien
 | Emissary      | Gateway         | Emissary Ingress (formerly known as Ambassador) API gateway is an open source Kubernetes-native API gateway built on the Envoy Proxy. [Learn More](./Emissary/) |
 | Github Actions | CICD            | GitHub Actions is a continuous integration and continuous delivery (CI/CD) platform that allows you to automate your build, test, and deployment pipeline. [Learn More](./Github%20Actions/) |
 | Golang        | Language        | Golang is an open source programming language that makes it easy to build simple, reliable, and efficient software. [Learn More](./Golang/) |
-| Grafana       | Observability   | TBD |
+| Grafana       | Observability   | Grafana is the open source analytics & monitoring solution for every database. [Learn More](./Grafana/) |
 | Helm          | Tools           | Helm helps you manage Kubernetes applications — Helm Charts help you define, install, and upgrade even the most complex Kubernetes application. [Learn More](./Helm/) |
 | Ingress-nginx | Gateway         | Kubernetes ingress-nginx is an Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer. [Learn More](./Ingress-nginx/) |
 | Istio         | Gateway         | Istio extends Kubernetes to establish a programmable, application-aware network using the powerful Envoy service proxy. [Learn More](./Istio/) |

@@ -13,27 +13,30 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/hashicorp/logutils"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"main.go/config"
 	"main.go/controllers"
 )
 
-// var (
-// 	httpDuration = promauto.NewHistogramVec(prometheus.HistogramOpts{
-// 		Name: "myapp_http_duration_seconds",
-// 		Help: "Duration of HTTP requests.",
-// 	}, []string{"path"})
-// )
+var (
+	httpDuration = promauto.NewHistogramVec(prometheus.HistogramOpts{
+		Name: "myapp_http_duration_seconds",
+		Help: "Duration of HTTP requests.",
+	}, []string{"path"})
+)
 
-// // prometheusMiddleware implements mux.MiddlewareFunc.
-// func prometheusMiddleware(next http.Handler) http.Handler {
-// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-// 		route := mux.CurrentRoute(r)
-// 		path, _ := route.GetPathTemplate()
-// 		timer := prometheus.NewTimer(httpDuration.WithLabelValues(path))
-// 		next.ServeHTTP(w, r)
-// 		timer.ObserveDuration()
-// 	})
-// }
+// prometheusMiddleware implements mux.MiddlewareFunc.
+func prometheusMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		route := mux.CurrentRoute(r)
+		path, _ := route.GetPathTemplate()
+		timer := prometheus.NewTimer(httpDuration.WithLabelValues(path))
+		next.ServeHTTP(w, r)
+		timer.ObserveDuration()
+	})
+}
 
 func main() {
 
@@ -52,8 +55,8 @@ func main() {
 	r := mux.NewRouter()
 
 	// prometheus
-	// r.Use(prometheusMiddleware)
-	// r.Path("/metrics").Handler(promhttp.Handler())
+	r.Use(prometheusMiddleware)
+	r.Path("/metrics").Handler(promhttp.Handler())
 
 	// Routes consist of a path and a handler function.
 	r.HandleFunc("/healthz", controllers.HealthzHandler).Methods("GET")

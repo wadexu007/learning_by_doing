@@ -68,7 +68,7 @@ curl -X GET http://localhost:8080/books | jq
 ## View Trace
 Search for the trace in Grafana Cloud by navigating to Explore and choosing your traces data source.
 
-![alt text](../Images/grafana_cloud_trace.jpg "This is Trace data in Grafana Cloud - Tempo.")
+![alt text](../../Images/grafana_cloud_trace.jpg "This is Trace data in Grafana Cloud - Tempo.")
 
 ## Conclusion
 OpenTelemetry is the future for setting up observability for cloud-native apps. It is backed by a huge community and covers a wide variety of technology and frameworks. Using OpenTelemetry, engineering teams can instrument polyglot and distributed applications with peace of mind.

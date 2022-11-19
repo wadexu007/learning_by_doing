@@ -21,7 +21,7 @@ Go back to Grafana Cloud Console to Manage your Grafana Cloud Stack.
 
 Click `Launch` Grafana, go to `Explore` select datasource (Grafana logs datasource automatical added to Grafana Cloud)
 
-![alt text.](../Images/grafana_cloud_logs.jpg "This is test result image.")
+![alt text.](../../Images/grafana_cloud_logs.jpg "This is test result image.")
 
 ## Clean Up
 ```

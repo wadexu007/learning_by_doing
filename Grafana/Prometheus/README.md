@@ -75,11 +75,11 @@ e.g.
 histogram_quantile(0.95, sum by(le) (rate(myapp_http_duration_seconds_bucket[5m])))
 ```
 
-![alt text](../Images/http_latency_histogram_quantile_95.jpg "This is http request latency histogram quantile 95%.")
+![alt text](../../Images/http_latency_histogram_quantile_95.jpg "This is http request latency histogram quantile 95%.")
 
 ## Dashboard
 Create a [dashboard](./http_latency_dashboard.json)
 
-![alt text](../Images/http_latency_dashboard.jpg "This is Grafana Demo Dashboard for demo app http request latency.")
+![alt text](../../Images/http_latency_dashboard.jpg "This is Grafana Demo Dashboard for demo app http request latency.")
 
 <br>

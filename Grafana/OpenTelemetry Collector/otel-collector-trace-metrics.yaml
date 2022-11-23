@@ -13,6 +13,7 @@ data:
           http:
       k8s_cluster:
         collection_interval: 10s
+
     processors:
       batch:
       memory_limiter:
@@ -31,6 +32,7 @@ data:
             - action: add_label
               new_label: env_type
               new_value: k8s
+
     exporters:
       logging:
         verbosity: normal
@@ -42,6 +44,7 @@ data:
         endpoint: tempo-us-central1.grafana.net:443
         headers:
           authorization: Basic <base64 data>
+
     service:
       pipelines:
         traces:
@@ -49,9 +52,10 @@ data:
           processors: [batch, memory_limiter]
           exporters: [logging, otlp]
         metrics:
-          receivers: [k8s_cluster]
+          receivers: [k8s_cluster, otlp]
           processors: [batch, memory_limiter, metricstransform]
           exporters: [prometheusremotewrite]
+
 kind: ConfigMap
 metadata:
   labels:

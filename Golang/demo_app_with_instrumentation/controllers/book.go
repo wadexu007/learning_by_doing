@@ -7,7 +7,20 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/metric/global"
+	"go.opentelemetry.io/otel/metric/instrument"
 	"go.opentelemetry.io/otel/trace"
+)
+
+var meter = global.Meter("bookstore-meter")
+
+var queryBooksCount, _ = meter.SyncInt64().Counter(
+	"bookstore/query_all_books_request_counts",
+	instrument.WithDescription("The number of query all books requests received"),
+)
+var queryBookCount, _ = meter.SyncInt64().Counter(
+	"bookstore/query_one_book_request_counts",
+	instrument.WithDescription("The number of query one book requests received"),
 )
 
 type CreateBookInput struct {
@@ -24,11 +37,16 @@ type UpdateBookInput struct {
 // Find all books
 func FindBooks(c *gin.Context) {
 	var books []models.Book
-	span := trace.SpanFromContext(c.Request.Context())
+
+	ctx := c.Request.Context()
+	span := trace.SpanFromContext(ctx)
 	span.SetAttributes(attribute.String("controller", "books"))
 	span.AddEvent("This is a sample event", trace.WithAttributes(attribute.Int("pid", 4328), attribute.String("sampleAttribute", "Test")))
-	models.DB.WithContext(c.Request.Context()).Find(&books)
+
+	models.DB.WithContext(ctx).Find(&books)
 	c.JSON(http.StatusOK, gin.H{"data": books})
+
+	queryBooksCount.Add(ctx, 1)
 }
 
 // GET /books/:id
@@ -40,8 +58,9 @@ func FindBook(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return
 	}
-
 	c.JSON(http.StatusOK, gin.H{"data": book})
+
+	queryBookCount.Add(c.Request.Context(), 1)
 }
 
 // POST /books

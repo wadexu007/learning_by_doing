@@ -23,21 +23,28 @@ spec:
             protocol: TCP
         env:
         - name: OTEL_EXPORTER_OTLP_ENDPOINT
-          value: "otel-collector.otel.svc.cluster.local:4317"
+          value: "otel-collector.otel.svc.cluster.local:4318"
         - name: SERVICE_NAME
           value: "otel-bookstore-app"
-        - name: INSECURE_MODE
-          value: "true"
+        - name: SERVICE_ENVIRONMENT
+          value: "dev"
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /ping
+            port: 8080
+          periodSeconds: 60
+          timeoutSeconds: 1
+          successThreshold: 1
         readinessProbe:
           failureThreshold: 5
           httpGet:
-            path: /books
+            path: /ping
             port: 8080
-        livenessProbe:
-          httpGet:
-            path: /books
-            port: 8080
-        image: wadexu007/instrumented-app:1.0.0
+          periodSeconds: 60
+          timeoutSeconds: 1
+          successThreshold: 1
+        image: wadexu007/instrumented-app:1.1.2
         resources:
           limits:
             cpu: 1

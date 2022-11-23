@@ -43,7 +43,16 @@ Search for the trace in Grafana Cloud by navigating to Explore and choosing your
 ## What's More
 otel-collector also can collect logs and metrics, e.g. Add k8s cluster metrics to otel-collector.
 
-* k8s_cluster
+
+Review `otel-collector-trace-metrics.yaml` and replace necessary value, e.g. prometheus `remotewrite` endpoint, user id and api key.
+```
+kubectl apply -f otel-rbac.yaml
+
+kubectl apply -f otel-collector-trace-metrics.yaml
+```
+
+* auto instrumented and custom metrics, refer to [demo app](../../Golang/demo_app_with_instrumentation/) and [deployment yaml](./demo-app.yaml)
+* k8s_cluster metrics
 ```
 K8s_container_cpu_limit
 K8s_container_cpu_request
@@ -66,12 +75,9 @@ k8s_resource_quota_hard_limit
 k8s_resource_quota_used
 ```
 
-Review `otel-collector-trace-metrics.yaml` and replace necessary value, e.g. prometheus `remotewrite` endpoint, user id and api key.
-```
-kubectl apply -f otel-rbac.yaml
 
-kubectl apply -f otel-collector-trace-metrics.yaml
-```
+
+To collect Host level metrics `hostmetrics` and `kubeletstats`, we need deploy otel collector as daemonset, you can review `otel-collector-daemonset.yaml` for reference.
 
 * Host and Kubelets
 ```
@@ -131,11 +137,9 @@ system_network_io
 system_network_packets
 ```
 
-To collect Host level metrics `hostmetrics` and `kubeletstats`, we need deploy otel collector as daemonset, you can review `otel-collector-daemonset.yaml` for reference.
-
 ## Useful links
-https://grafana.com/blog/2021/04/13/how-to-send-traces-to-grafana-clouds-tempo-service-with-opentelemetry-collector/
-https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/k8sclusterreceiver
-https://github.com/open-telemetry/opentelemetry-collector/blob/main/examples/k8s/otel-config.yaml
+* https://grafana.com/blog/2021/04/13/how-to-send-traces-to-grafana-clouds-tempo-service-with-opentelemetry-collector/
+* https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/k8sclusterreceiver
+* https://github.com/open-telemetry/opentelemetry-collector/blob/main/examples/k8s/otel-config.yaml
 
 <br>

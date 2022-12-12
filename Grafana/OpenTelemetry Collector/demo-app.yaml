@@ -44,7 +44,7 @@ spec:
           periodSeconds: 60
           timeoutSeconds: 1
           successThreshold: 1
-        image: wadexu007/instrumented-app:1.1.2
+        image: wadexu007/instrumented-app:1.1.3
         resources:
           limits:
             cpu: 1

@@ -1,4 +1,4 @@
-export TAG=1.1.2
+export TAG=1.1.3
 export REPO=wadexu007/instrumented-app
 
 hello:

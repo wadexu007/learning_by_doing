@@ -75,8 +75,6 @@ k8s_resource_quota_hard_limit
 k8s_resource_quota_used
 ```
 
-
-
 To collect Host level metrics `hostmetrics` and `kubeletstats`, we need deploy otel collector as daemonset, you can review `otel-collector-daemonset.yaml` for reference.
 
 * Host and Kubelets

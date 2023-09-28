@@ -15,22 +15,21 @@ core 2022.08.05
 gsutil 5.11
 ```
 
-### Provision the GKE cluster
-Update backend.tf -> bucket
-
-```
-# valid LOCATION values are `asia`, `eu` or `us`
-gsutil mb -l $LOCATION gs://$BUCKET_NAME
-gsutil versioning set on gs://$BUCKET_NAME
-```
-
 ### Authentication
 The account should have full permission to GCP project
 ```
-gcloud auth login
-
-gcloud auth list
+gcloud auth application-default login
 ```
+
+### Provision the GKE cluster
+```
+# valid LOCATION values are `asia`, `eu` or `us`
+export BUCKET_NAME=wadexu007-terraform-dev
+gsutil mb -l $LOCATION gs://$BUCKET_NAME
+gsutil versioning set on gs://$BUCKET_NAME
+```
+Update backend.tf -> bucket to your name
+Update locals.tf -> project_id and others if you want
 
 ### Deployment
 ```

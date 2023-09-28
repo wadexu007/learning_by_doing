@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "xperiences-eng-cn-dev-dmz-terraform-test"
-    prefix = "demo/state"
+    bucket = "wadexu007-terraform-dev"
+    prefix = "state/gke"
   }
 }

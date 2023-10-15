@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: app1
   namespace: argocd
+  labels:
+    application-type: deployment
 spec:
   destination:
     namespace: demo

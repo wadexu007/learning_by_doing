@@ -7,7 +7,7 @@ metadata:
     application-type: deployment
 spec:
   destination:
-    namespace: mgmt-demo
+    namespace: demo
     server: https://kubernetes.default.svc
   project: gke-us-mgmt-project
   source:

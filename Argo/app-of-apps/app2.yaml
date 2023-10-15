@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app2
+  namespace: argocd
+spec:
+  destination:
+    namespace: ops
+    server: https://kubernetes.default.svc
+  project: gke-us-mgmt-project
+  source:
+    path: Kustomize/demo-manifests/services/helm-go-client/dev
+    repoURL: https://github.com/wadexu007/learning_by_doing
+    targetRevision: main
+    directory:
+      recurse: true
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Validate=false
+      - CreateNamespace=true
+      - ServerSideApply=false

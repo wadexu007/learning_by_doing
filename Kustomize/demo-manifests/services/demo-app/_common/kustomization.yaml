@@ -4,6 +4,5 @@ resources:
 - ../../../base
 - namespace.yaml
 
-patchesStrategicMerge:
-- deployment-patch.yaml
-
+patches:
+- path: deployment-patch.yaml

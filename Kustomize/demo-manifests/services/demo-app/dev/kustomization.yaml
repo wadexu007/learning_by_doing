@@ -5,8 +5,6 @@ resources:
 
 namespace: demo
 
-commonLabels:
-  app: demo-app
 
 replicas:
 - count: 1
@@ -16,6 +14,10 @@ configMapGenerator:
 - files:
   - config.json
   name: demo-app-config
+
+generatorOptions:
+  disableNameSuffixHash: true
+
 patches:
 - patch: |-
     - op: replace
@@ -23,10 +25,13 @@ patches:
       value: demo-app
   target:
     name: NAME_PLACEHOLDER
+- path: deployment-patch.yaml
 
-patchesStrategicMerge:
-- deployment-patch.yaml
 
 images:
 - name: wadexu007/demo-app
   newTag: 1.0.0
+labels:
+- includeSelectors: true
+  pairs:
+    app: demo-app

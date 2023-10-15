@@ -7,13 +7,19 @@ namespace: ops
 
 commonLabels:
   app: helm-go-client
+
 replicas:
 - count: 1
   name: helm-go-client
+
 configMapGenerator:
 - files:
   - config.json
   name: helm-go-client-config
+
+generatorOptions:
+  disableNameSuffixHash: true
+
 patches:
 - patch: |-
     - op: replace
@@ -21,9 +27,8 @@ patches:
       value: helm-go-client
   target:
     name: NAME_PLACEHOLDER
+- path: deployment-patch.yaml
 
-patchesStrategicMerge:
-- deployment-patch.yaml
 images:
 - name: wadexu007/helm-go-client
-  newTag: 1.0.0-93a3f8f
+  newTag: 1.0.0-none

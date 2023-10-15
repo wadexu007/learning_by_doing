@@ -14,8 +14,9 @@ spec:
     path: Kustomize/demo-manifests/services/demo-app/dev
     repoURL: https://github.com/wadexu007/learning_by_doing
     targetRevision: main
-    directory:
-      recurse: true
+    kustomize:
+      commonLabels:
+        managed-by: argo-kustomize
   syncPolicy:
     automated:
       prune: true

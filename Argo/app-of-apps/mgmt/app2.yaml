@@ -1,21 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: app1
+  name: app2-us-mgmt
   namespace: argocd
   labels:
     application-type: deployment
 spec:
   destination:
-    namespace: demo
+    namespace: mgmt-ops
     server: https://kubernetes.default.svc
   project: gke-us-mgmt-project
   source:
-    path: Kustomize/demo-manifests/services/demo-app/dev
+    path: Grafana/Prometheus
     repoURL: https://github.com/wadexu007/learning_by_doing
     targetRevision: main
     directory:
       recurse: true
+      include: 'demo-app.yaml'
   syncPolicy:
     automated:
       prune: true

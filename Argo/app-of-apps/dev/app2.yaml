@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: app2
+  name: app2-us-dev
   namespace: argocd
   labels:
     application-type: deployment
@@ -9,13 +9,14 @@ spec:
   destination:
     namespace: ops
     server: https://34.28.199.211
-  project: gke-us-mgmt-project
+  project: gke-us-dev-project
   source:
-    path: Kustomize/demo-manifests/services/helm-go-client/dev
+    path: Grafana/Prometheus
     repoURL: https://github.com/wadexu007/learning_by_doing
     targetRevision: main
     directory:
       recurse: true
+      include: 'demo-app.yaml'
   syncPolicy:
     automated:
       prune: true

@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    application-type: bootstrapper
+  name: group-apps-gke-us-mgmt
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    repoURL: https://github.com/wadexu007/learning_by_doing
+    path: Argo/argo-apps/mgmt
+    targetRevision: main
+    directory:
+      recurse: false
+  syncPolicy:
+    automated:
+      selfHeal: true

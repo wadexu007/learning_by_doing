@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: gke-us-dev-project
+spec:
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  description: "US Dev App Project"
+  destinations:
+    - namespace: "*"
+      server: https://34.28.199.211
+  orphanedResources:
+    warn: true
+  sourceRepos:
+    - "*"

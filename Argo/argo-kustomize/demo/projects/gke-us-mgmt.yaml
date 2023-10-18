@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: gke-us-mgmt-project
+spec:
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  description: "US Mgmt Project"
+  destinations:
+    - namespace: "*"
+      server: https://kubernetes.default.svc
+  orphanedResources:
+    warn: true
+  sourceRepos:
+    - "*"

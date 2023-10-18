@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization  
+
+namespace: argocd
+
+resources:
+  - repositories.yaml
+  - ./projects
+  - ./app-of-apps
+  # Uncomment once you update below files with correct value
+  # - repo-creds.yaml # for GitHub App Credential
+  # - clusters.yaml # for onboard new cluster

@@ -12,7 +12,7 @@ projects:
     - '**/*.tf'
 
 - name: project-module-demo
-  dir: Terraform/module_demo
+  dir: Terraform/module_demo/project_1
   terraform_version: 1.2.9
   autoplan:
     when_modified:

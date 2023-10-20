@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "global-sre-dev-terraform"
+    bucket = "wadexu007-terraform-dev"
     prefix = "demo/state"
   }
 }

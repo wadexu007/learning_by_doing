@@ -1,8 +1,8 @@
 locals {
   # project details
   project = {
-    project_id   = "xperiences-eng-cn-dev-dmz"
+    project_id   = "adept-presence-396401"
     region       = "asia-east2"
-    network_name = "wade-test-network"
+    network_name = "default"
   }
 }

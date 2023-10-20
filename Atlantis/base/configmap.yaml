@@ -20,16 +20,10 @@ data:
     - id: /.*/
       branch: /(master|main)/
       apply_requirements: [approved, mergeable]
-      allowed_overrides: [apply_requirements, workflow, delete_source_branch_on_merge]
-      allow_custom_workflows: true
-      delete_source_branch_on_merge: true
       workflow: default
   
     - id: github.com/wadexu007/learning_by_doing/Terraform/quick_demo
       apply_requirements: [approved, mergeable]
-      allowed_overrides: [apply_requirements, workflow, delete_source_branch_on_merge]
-      allow_custom_workflows: true
-      delete_source_branch_on_merge: true
       workflow: my-demo
 
     workflows:
@@ -45,12 +39,12 @@ data:
       my-demo:
         plan:
           steps:
-          - env:
-              name: ENV_NAME
-              command: 'echo "dynamic-value-$(date)"'
-          - run: terraform${ATLANTIS_TERRAFORM_VERSION} fmt -check=true -write=false -diff=true
-          - init
-          - plan
+            - env:
+                name: ENV_NAME
+                command: 'echo "dynamic-value-$(date)"'
+            - run: terraform${ATLANTIS_TERRAFORM_VERSION} fmt -check=true -write=false -diff=true
+            - init
+            - plan
         apply:
           steps:
-          - apply
+            - apply

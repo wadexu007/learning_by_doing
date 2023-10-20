@@ -21,6 +21,51 @@ kubectl create ns atlantis
 kubectl create secret generic atlantis --from-file=ghUser --from-file=ghToken --from-file=ghWebhookSecret -n atlantis
 ```
 
+#### Permimssion
+Make sure service account of Atlantis running in GKE (in this example) has full permission to your demo GCP project so that it can manipulate resource in this GCP project.
+
+* GKE default service account use node service account.
+
+* For GKE Workload Identity: https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
+
+Workload Identity allows workloads in your GKE cluster to impersonate GSA (Google Service Accounts) using KSA (Kubernetes Service Accounts) configured during deployment.
+
+Create GSA for use with Workload Identity
+```
+SA_NAME="atlantis"
+GKE_PROJECT_ID="adept-presence-396401"
+SA_EMAIL="$SA_NAME@${GKE_PROJECT_ID}.iam.gserviceaccount.com"
+
+gcloud iam service-accounts create $SA_NAME --display-name $SA_NAME
+
+gcloud projects add-iam-policy-binding $GKE_PROJECT_ID \
+--member serviceAccount:$SA_EMAIL --role "roles/owner"
+```
+
+Link KSA to GSA
+```
+#namespace in kubernetes
+NS="atlantis"
+
+gcloud iam service-accounts add-iam-policy-binding $SA_EMAIL \
+  --role "roles/iam.workloadIdentityUser" \
+  --member "serviceAccount:$GKE_PROJECT_ID.svc.id.goog[$NS/atlantis]"
+
+```
+
+Check binding result
+```
+gcloud iam service-accounts get-iam-policy $SA_EMAIL
+
+#result
+bindings:
+- members:
+  - serviceAccount:adept-presence-396401.svc.id.goog[atlantis/atlantis]
+  role: roles/iam.workloadIdentityUser
+etag: BwYIHSdPl-Y=
+version: 1
+```
+
 #### Deployment
 ```
 kustomize build sre-mgmt-dev | kubectl apply -f -
@@ -36,14 +81,6 @@ Reference: https://www.runatlantis.io/docs/configuring-webhooks.html#github-gith
 
 #### Atlantis.yaml
 Refer to [Atlantis.yaml](../atlantis.yaml) in this monorepo
-
-
-#### Permimssion
-Make sure service account of Atlantis running in GKE (in this example) has full permission to your demo GCP project so that it can manipulate resource in this GCP project.
-
-* GKE default service account use node service account.
-
-* (Optional) for GKE Workload Identity: https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
 
 ## Workflow Test
 * Step 1: Open a Pull Request

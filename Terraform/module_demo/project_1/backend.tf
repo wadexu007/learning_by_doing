@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
     bucket = "wadexu007-terraform-dev"
-    prefix = "demo/module"
+    prefix = "stage/tf_module_tf"
   }
 }

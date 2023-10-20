@@ -14,6 +14,22 @@ projects:
 - name: project-module-demo
   dir: Terraform/module_demo/project_1
   terraform_version: 1.2.9
+  workflow: test
   autoplan:
     when_modified:
     - '**/*.tf'
+
+# (Optional) custom workflows
+workflows:
+  test:
+    plan:
+      steps:
+      - env:
+          name: ENV_NAME
+          command: 'echo "dynamic-value-$(date)"'
+      - run: terraform${ATLANTIS_TERRAFORM_VERSION} fmt -check=true -write=false -diff=true
+      - init
+      - plan
+    apply:
+      steps:
+      - apply

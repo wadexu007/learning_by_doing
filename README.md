@@ -41,6 +41,7 @@ Email: wadexu007@gmail.com
 
 ## 📖 Blog
 [English] https://medium.com/@wadexu007
+<br>
 [Chinese] https://www.cnblogs.com/wade-xu
 
 <br>

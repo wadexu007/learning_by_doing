@@ -10,7 +10,7 @@ spec:
       - name: atlantis
         env:
         - name: ATLANTIS_ATLANTIS_URL
-          value: https://atlantis-demo.wadexu.cloud
+          value: https://resource.project-44.cn
         - name: ATLANTIS_REPO_ALLOWLIST
           value: github.com/wadexu007/learning_by_doing
 

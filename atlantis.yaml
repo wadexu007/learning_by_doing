@@ -7,7 +7,6 @@ projects:
 - name: project-quick-demo
   dir: Terraform/quick_demo
   terraform_version: 1.2.9
-  workflow: default
   autoplan:
     when_modified:
     - '**/*.tf'
@@ -15,7 +14,6 @@ projects:
 - name: project-module-demo
   dir: Terraform/module_demo
   terraform_version: 1.2.9
-  workflow: my-demo
   autoplan:
     when_modified:
     - '**/*.tf'

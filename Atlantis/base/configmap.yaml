@@ -6,7 +6,6 @@ metadata:
   namespace: atlantis
 data:
   config.yaml: |-
-    ---
     checkout-strategy: merge
     data-dir: /atlantis
     default-tf-version: v1.1.5
@@ -15,17 +14,14 @@ data:
     log-level: info
 
   repoConfig.yaml: |-
-    ---
     repos:
     - id: /.*/
       branch: /(master|main)/
       apply_requirements: [approved, mergeable]
       workflow: default
-  
-    - id: github.com/wadexu007/learning_by_doing/Terraform/quick_demo
+    - id: github.com/wadexu007/learning_by_doing
       apply_requirements: [approved, mergeable]
       workflow: my-demo
-
     workflows:
       default:
         plan:
@@ -35,7 +31,6 @@ data:
         apply:
           steps:
             - apply
-  
       my-demo:
         plan:
           steps:

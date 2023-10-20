@@ -7,5 +7,5 @@ resources:
 
 namespace: atlantis
 
-patchesStrategicMerge:
-- statefulset-patch.yaml
+patches:
+- path: statefulset-patch.yaml

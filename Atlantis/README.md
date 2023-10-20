@@ -13,18 +13,17 @@ Reference: https://www.runatlantis.io/docs/deployment.html#kubernetes-kustomize
 * Use any random string generator to create a [Webhook Secret](https://www.runatlantis.io/docs/webhook-secrets.html)
 
 ```
-echo -n "" > ghUser
-echo -n "" > ghToken
-echo -n "" > ghWebhookSecret
+echo -n "xxx" > ghUser
+echo -n "xxxx" > ghToken
+echo -n "xxxxx" > ghWebhookSecret
 
-kubectl create secret generic atlantis --from-file=ghUser --from-file=ghToken --from-file=ghWebhookSecret
+kubectl create ns atlantis
+kubectl create secret generic atlantis --from-file=ghUser --from-file=ghToken --from-file=ghWebhookSecret -n atlantis
 ```
 
 #### Deployment
 ```
-kustomize build sre-mgmt-dev > deploy.yaml  
-
-kubectl apply -f deploy.yaml  
+kustomize build sre-mgmt-dev | kubectl apply -f -
 ```
 
 #### Config Ingress Nginx

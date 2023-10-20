@@ -4,19 +4,19 @@ resources:
 - ../../base
 - modules.yaml
 - resolvers.yaml
-patchesStrategicMerge:
-- deployment-patch.yaml
+
 
 # when you have both public and internal ambassador in one cluster
 # need separate name of ClusterRoleBinding
 patches:
-- target:
-    kind: ClusterRoleBinding
-    name: ambassador
-  patch: |-
+- patch: |-
     - op: replace
       path: /metadata/name
       value: ambassador-app
+  target:
+    kind: ClusterRoleBinding
+    name: ambassador
+- path: deployment-patch.yaml
 
 # replace container registry and ambassador version
 images:

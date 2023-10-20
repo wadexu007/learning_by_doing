@@ -37,9 +37,10 @@ The content of this repository is based on a return of several years of experien
 
 
 ## 📟 Contact
-Email: xjs-1985@163.com
+Email: wadexu007@gmail.com
 
 ## 📖 Blog
+[English] https://medium.com/@wadexu007
 [Chinese] https://www.cnblogs.com/wade-xu
 
 <br>

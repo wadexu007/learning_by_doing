@@ -7,5 +7,5 @@ resources:
 
 namespace: app
 
-patchesStrategicMerge:
-- service-patch.yaml
+patches:
+- path: service-patch.yaml

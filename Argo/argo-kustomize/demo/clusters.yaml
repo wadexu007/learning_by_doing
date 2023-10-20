@@ -1,7 +1,7 @@
 # on boarding new cluster
 # go to argo-kustomize folder, kustomize build argocd-manager | kubectl apply -f -
 # Get token/ca.crt from kubectl edit secret argocd-manager-token -n kube-system
-# then repplace below config
+# then replace below config
 apiVersion: v1
 kind: Secret
 metadata:

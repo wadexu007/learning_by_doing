@@ -5,5 +5,5 @@ resources:
 
 namespace: secrets
 
-patchesStrategicMerge:
-- serviceaccount-patch.yaml
+patches:
+- path: serviceaccount-patch.yaml

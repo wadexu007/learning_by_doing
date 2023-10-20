@@ -1,52 +1,53 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: app
-commonLabels:
-  app.kubernetes.io/name: internal-ingress-nginx
-  app.kubernetes.io/instance: internal-ingress-nginx
 resources:
 - ../../base
-patchesStrategicMerge:
-- ingress-class-patch.yaml
 patches:
-  - target:
-      kind: IngressClass
-      name: nginx
-    patch: |-
-      - op: replace
-        path: /metadata/name
-        value: internal-nginx
-  - target:
-      kind: Deployment
-      name: ingress-nginx-controller
-    patch: |-
-      - op: replace
-        path: /metadata/name
-        value: internal-ingress-nginx-controller
-      - op: replace
-        path: /spec/template/spec/containers/0/args/3
-        value: "--controller-class=k8s.io/internal-ingress-nginx"
-      - op: replace
-        path: /spec/template/spec/containers/0/args/4
-        value: "--ingress-class=internal-nginx"
-  - target:
-      kind: ClusterRoleBinding
-      name: ingress-nginx
-    patch: |-
-      - op: replace
-        path: /metadata/name
-        value: internal-ingress-nginx
-  - target:
-      kind: ClusterRoleBinding
-      name: ingress-nginx-admission
-    patch: |-
-      - op: replace
-        path: /metadata/name
-        value: internal-ingress-nginx-admission
-  - target:
-      kind: ValidatingWebhookConfiguration
-      name: ingress-nginx-admission
-    patch: |-
-      - op: replace
-        path: /metadata/name
-        value: internal-ingress-nginx-admission
+- patch: |-
+    - op: replace
+      path: /metadata/name
+      value: internal-nginx
+  target:
+    kind: IngressClass
+    name: nginx
+- patch: |-
+    - op: replace
+      path: /metadata/name
+      value: internal-ingress-nginx-controller
+    - op: replace
+      path: /spec/template/spec/containers/0/args/3
+      value: "--controller-class=k8s.io/internal-ingress-nginx"
+    - op: replace
+      path: /spec/template/spec/containers/0/args/4
+      value: "--ingress-class=internal-nginx"
+  target:
+    kind: Deployment
+    name: ingress-nginx-controller
+- patch: |-
+    - op: replace
+      path: /metadata/name
+      value: internal-ingress-nginx
+  target:
+    kind: ClusterRoleBinding
+    name: ingress-nginx
+- patch: |-
+    - op: replace
+      path: /metadata/name
+      value: internal-ingress-nginx-admission
+  target:
+    kind: ClusterRoleBinding
+    name: ingress-nginx-admission
+- patch: |-
+    - op: replace
+      path: /metadata/name
+      value: internal-ingress-nginx-admission
+  target:
+    kind: ValidatingWebhookConfiguration
+    name: ingress-nginx-admission
+- path: ingress-class-patch.yaml
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/instance: internal-ingress-nginx
+    app.kubernetes.io/name: internal-ingress-nginx

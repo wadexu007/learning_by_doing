@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
 - ../_common
 
-patchesStrategicMerge:
-- backupstoragelocation.yaml
-- serviceaccount.yaml
-
+patches:
+- path: backupstoragelocation.yaml
+- path: serviceaccount.yaml

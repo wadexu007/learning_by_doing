@@ -13,21 +13,19 @@ spec:
           value: https://atlantis-demo.wadexu.cloud
         - name: ATLANTIS_REPO_ALLOWLIST
           value: github.com/wadexu007/learning_by_doing
-        # Github user integration
-        - name: ATLANTIS_GH_USER
+        # Github App integration
+        - name: ATLANTIS_GH_APP_ID
           valueFrom:
             secretKeyRef:
-              name: atlantis
-              key: ghUser
-        - name: ATLANTIS_GH_TOKEN
+              name: atlantis-github-app
+              key: ghAppID
+        - name: ATLANTIS_GH_APP_KEY
           valueFrom:
             secretKeyRef:
-              name: atlantis
-              key: ghToken
+              name: atlantis-github-app
+              key: ghAppKey
         - name: ATLANTIS_GH_WEBHOOK_SECRET
           valueFrom:
             secretKeyRef:
-              name: atlantis
+              name: atlantis-github-app
               key: ghWebhookSecret
-
-

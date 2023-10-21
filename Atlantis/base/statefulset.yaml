@@ -29,22 +29,6 @@ spec:
         - --config=/etc/atlantis/config.yaml
         - --repo-config=/etc/atlantis/repoConfig.yaml
         env:
-        - name: ATLANTIS_GH_USER
-          valueFrom:
-            secretKeyRef:
-              name: atlantis
-              key: ghUser
-        - name: ATLANTIS_GH_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: atlantis
-              key: ghToken
-        - name: ATLANTIS_GH_WEBHOOK_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: atlantis
-              key: ghWebhookSecret
-
         - name: ATLANTIS_DATA_DIR
           value: /atlantis
         - name: ATLANTIS_PORT

@@ -9,3 +9,10 @@ namespace: atlantis
 
 patches:
   - path: statefulset-patch.yaml
+
+  - target:
+      kind: StatefulSet
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/args/1
+        value: "--write-git-creds"

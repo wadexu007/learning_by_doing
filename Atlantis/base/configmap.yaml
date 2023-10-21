@@ -19,10 +19,12 @@ data:
       branch: /(master|main)/
       apply_requirements: [approved, mergeable]
       allowed_overrides: [apply_requirements, workflow, delete_source_branch_on_merge]
+      delete_source_branch_on_merge: true
       workflow: default
     - id: github.com/wadexu007/learning_by_doing
       apply_requirements: [approved, mergeable]
       allowed_overrides: [apply_requirements, workflow, delete_source_branch_on_merge]
+      delete_source_branch_on_merge: true
       workflow: my-demo
     workflows:
       default:

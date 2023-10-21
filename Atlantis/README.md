@@ -21,6 +21,8 @@ kubectl create ns atlantis
 kubectl create secret generic atlantis --from-file=ghUser --from-file=ghToken --from-file=ghWebhookSecret -n atlantis
 ```
 
+**Github App integration refer to my [medium](https://medium.com/@wadexu007/c74bce4c7fde?source=friends_link&sk=21b5112a96c1b244fd7e9e47ffd1c00e).**
+
 #### Permimssion
 Make sure service account of Atlantis running in GKE (in this example) has full permission to your demo GCP project so that it can manipulate resource in this GCP project.
 
@@ -91,5 +93,8 @@ Refer to [Atlantis.yaml](../atlantis.yaml) in this monorepo
 * Step 6: PR merged automatically.
 
 ![alt text.](../Images/atlantis_auto_plan_terraform_PR.jpg "This is test result image.")
+
+More details
+[Getting Started with Atlantis on GKE for Terraform Automation with GCP Workload Identity](https://medium.com/@wadexu007/8b5ca1884d05?source=friends_link&sk=58f2ad8bf8d7c720a34628b100ce2ed7)
 
 <br>

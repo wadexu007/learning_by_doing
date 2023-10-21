@@ -25,6 +25,7 @@ data:
       apply_requirements: [approved, mergeable]
       allowed_overrides: [apply_requirements, workflow, delete_source_branch_on_merge]
       delete_source_branch_on_merge: true
+      allow_custom_workflows: true
       workflow: my-demo
     workflows:
       default:

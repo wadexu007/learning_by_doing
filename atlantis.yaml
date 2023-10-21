@@ -14,6 +14,20 @@ projects:
 - name: project-module-demo
   dir: Terraform/module_demo/project_1
   terraform_version: 1.2.9
+  workflow: override_workflow
   autoplan:
     when_modified:
     - '**/*.tf'
+
+workflows:
+  override_workflow:
+    plan:
+      steps:
+      - run: echo "Start From Terraform Init and Plan"
+      - init
+      - plan:
+          extra_args: ["-lock=false"]
+    apply:
+      steps:
+      - run: echo "Terraform Applying"
+      - apply
